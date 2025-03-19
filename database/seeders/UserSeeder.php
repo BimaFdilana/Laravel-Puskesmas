@@ -3,24 +3,24 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     *
+     * @return void
      */
-    public function run(): void
+    public function run()
     {
-        User::factory(10)->create();
+        $user = [
+            'name' => 'admin',
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('123123123'),
+            'role_id' => 1,
+        ];
 
-        User::create([
-            'name' => 'Bima',
-            'email' => 'bima@bima.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('password'),
-        ]);
+        User::create($user);
     }
 }
