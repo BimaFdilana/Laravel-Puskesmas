@@ -1,8 +1,9 @@
-<footer id="footer" class="footer">
-    <div class="copyright">
-        &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+<footer class="main-footer">
+    <div class="footer-left">
+        Copyright &copy; 2018 <div class="bullet"></div> Design By <a href="https://nauval.in/">Muhamad
+            Nauval Azhar</a>
     </div>
-    <div class="credits">
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    <div class="footer-right">
+        2.3.0
     </div>
 </footer>
