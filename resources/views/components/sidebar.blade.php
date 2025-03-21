@@ -4,7 +4,7 @@
             @if (Auth::user()->role_id == 1)
                 <a href="index.html">Petugas Puskesmas</a>
             @else
-                <a href="index.html">Putsu</a>
+                <a href="index.html">Puskesmas Pembantu</a>
             @endif
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
@@ -51,27 +51,23 @@
                     <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-users"></i> <span>Keluarga
                             Berencana</span></a>
                 </li>
-
                 <li class="{{ Request::is('blank') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-file-text"></i>
+                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-heartbeat"></i>
                         <span>Imunisasi</span></a>
                 </li>
-
                 <li class="{{ Request::is('blank') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-cog"></i> <span>Ibu
+                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-stethoscope"></i> <span>Ibu
                             Hamil</span></a>
                 </li>
-
                 <li class="{{ Request::is('blank') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-cog"></i> <span>Penyakit</span></a>
+                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-medkit"></i> <span>Penyakit</span></a>
                 </li>
                 <li class="menu-header">Laporan Pustu</li>
                 <li class="{{ Request::is('blank') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-globe"></i> <span>Rekap Laporan
+                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-file-text"></i> <span>Rekap Laporan
                             Pustu</span></a>
                 </li>
             @endif
-
             <div class="hide-sidebar-mini mb-4 p-3">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
