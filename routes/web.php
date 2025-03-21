@@ -10,7 +10,7 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function() {
     Route::get('home', function(){
         return view('pages.apps.petugas.dashboard', ['type_menu' => '']);
-    })->name('homePetugas');
+    })->name('home');
 
     Route::get('blank', [Blank::class, 'index'])->name('blank');
 });

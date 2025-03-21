@@ -2,19 +2,19 @@
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
             @if (Auth::user()->role_id == 1)
-                <a href="index.html">Petugas Puskesmas</a>
+                <a href="{{ route('beranda') }}">Petugas Puskesmas</a>
             @else
-                <a href="index.html">Puskesmas Pembantu</a>
+                <a href="{{ route('beranda') }}">Puskesmas Pembantu</a>
             @endif
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="index.html">PP</a>
+            <a href="{{ route('beranda') }}">PP</a>
         </div>
         <ul class="sidebar-menu">
             @if (Auth::user()->role_id == 1)
                 <li class="menu-header">Dashboard</li>
-                <li class="{{ Request::is('homePetugas') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('homePetugas') }}"><i class="fa fa-home"></i>
+                <li class="{{ Request::is('home') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('home') }}"><i class="fa fa-home"></i>
                         <span>Dashboard</span></a>
                 </li>
                 <li class="menu-header">Pustu</li>
@@ -42,8 +42,8 @@
                 </li>
             @else
                 <li class="menu-header">Dashboard</li>
-                <li class="{{ Request::is('homePetugas') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('homePetugas') }}"><i class="fa fa-home"></i>
+                <li class="{{ Request::is('home') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('home') }}"><i class="fa fa-home"></i>
                         <span>Dashboard</span></a>
                 </li>
                 <li class="menu-header">Data Pustu</li>
@@ -60,7 +60,8 @@
                             Hamil</span></a>
                 </li>
                 <li class="{{ Request::is('blank') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-medkit"></i> <span>Penyakit</span></a>
+                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-medkit"></i>
+                        <span>Penyakit</span></a>
                 </li>
                 <li class="menu-header">Laporan Pustu</li>
                 <li class="{{ Request::is('blank') ? 'active' : '' }}">
