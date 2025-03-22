@@ -13,13 +13,13 @@
         <ul class="sidebar-menu">
             @if (Auth::user()->role_id == 1)
                 <li class="menu-header">Dashboard</li>
-                <li class="{{ Request::is('home') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('home') }}"><i class="fa fa-home"></i>
+                <li class="{{ Request::is('dashboard') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('dashboard') }}"><i class="fa fa-home"></i>
                         <span>Dashboard</span></a>
                 </li>
                 <li class="menu-header">Pustu</li>
-                <li class="{{ Request::is('blank') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-users"></i> <span>Data Akun
+                <li class="{{ Request::is('usersData') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('usersData') }}"><i class="fa fa-users"></i> <span>Data Akun
                             Pustu</span></a>
                 </li>
                 <li class="menu-header">Laporan Pustu</li>

@@ -64,7 +64,7 @@
 }
 
 a {
-  color: #6777ef;
+  color: #28a745;
   font-weight: 500;
   transition: all 0.5s;
   -webkit-transition: all 0.5s;
@@ -112,7 +112,7 @@ a:not(.btn-social-icon):not(.btn-social):not(.page-link) .fab {
 }
 
 .text-primary, .text-primary-all *, .text-primary-all *:before, .text-primary-all *:after {
-  color: #6777ef !important;
+  color: #28a745 !important;
 }
 
 .text-secondary, .text-secondary-all *, .text-secondary-all *:before, .text-secondary-all *:after {
