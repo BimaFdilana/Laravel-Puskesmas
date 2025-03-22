@@ -74,10 +74,16 @@ class AuthController extends Controller
     }
 
 
-    public function destroy(string $id)
-    {
+    public function destroy($id)
+{
+    try {
         $user = User::findOrFail($id);
         $user->delete();
-        return redirect()->back()->with('success', 'Data Akun berhasil dihapus!');
+
+        return redirect()->back()->with('success', 'Akun berhasil dihapus.');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Gagal menghapus akun.');
     }
+}
+
 }

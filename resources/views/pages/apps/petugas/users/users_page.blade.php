@@ -110,9 +110,9 @@
                             form.method = 'POST';
                             form.action = `/users/${userId}`;
                             form.innerHTML = `
-                                @csrf
-                                @method('DELETE')
-                            `;
+                    @csrf
+                    @method('DELETE')
+                `;
                             document.body.appendChild(form);
                             form.submit();
                         }

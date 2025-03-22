@@ -25,7 +25,7 @@
                                 <h4>Data Puskesmas Pembantu</h4>
                             </div>
                             <div class="card-body">
-                                10
+                                {{ $userCount }}
                             </div>
                         </div>
                     </div>

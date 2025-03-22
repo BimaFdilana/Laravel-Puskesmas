@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class LandingPageController extends Controller
 {
-    public function landingPage ()
+    public function landingPage()
     {
-        return view('pages.apps.petugas.dashboard');
+    $userCount = User::where('role_id', 2)->count();
+    return view('pages.apps.petugas.dashboard', compact('userCount'));
     }
 
     public function tentangKami ()

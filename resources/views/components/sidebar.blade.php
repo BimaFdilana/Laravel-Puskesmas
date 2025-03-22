@@ -42,8 +42,8 @@
                 </li>
             @else
                 <li class="menu-header">Dashboard</li>
-                <li class="{{ Request::is('home') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('home') }}"><i class="fa fa-home"></i>
+                <li class="{{ Request::is('dashboard') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('dashboard') }}"><i class="fa fa-home"></i>
                         <span>Dashboard</span></a>
                 </li>
                 <li class="menu-header">Data Pustu</li>
