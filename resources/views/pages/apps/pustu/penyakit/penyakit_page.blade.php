@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Keluarga Berencana Page')
+@section('title', 'Penyakit Page')
 
 @push('style')
 @endpush
@@ -9,7 +9,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Keluarga Berencana</h1>
+                <h1>Penyakit</h1>
             </div>
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -23,7 +23,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            <a href="" class="btn btn-success mb-3">Tambah Data KB</a>
+            <a href="" class="btn btn-success mb-3">Tambah Data Penyakit</a>
             <div class="section-body">
                 <div class="row">
                     <div class="col-12">
@@ -35,26 +35,30 @@
                                             <th>No</th>
                                             <th>Nama</th>
                                             <th>Umur</th>
-                                            <th>Tipe</th>
+                                            <th>Jenis Kelamin</th>
+                                            <th>Penyakit</th>
+                                            <th>Gejala</th>
                                             <th>Action</th>
                                         </tr>
-                                        @if ($kb->isEmpty())
+                                        @if ($penyakit->isEmpty())
                                             <tr>
-                                                <td colspan="5" class="text-center">Tidak ada data</td>
+                                                <td colspan="7" class="text-center">Tidak ada data</td>
                                             </tr>
                                         @else
-                                            @foreach ($kb as $index => $keluarga)
+                                            @foreach ($penyakit as $index => $penyakit)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $keluarga->nama }}</td>
-                                                    <td>{{ $keluarga->umur }}</td>
-                                                    <td>{{ $keluarga->type }}</td>
+                                                    <td>{{ $penyakit->nama }}</td>
+                                                    <td>{{ $penyakit->umur }}</td>
+                                                    <td>{{ $penyakit->jenis_kelamin }}</td>
+                                                    <td>{{ $penyakit->penyakit }}</td>
+                                                    <td>{{ $penyakit->gejala }}</td>
                                                     <td>
                                                         <div class="d-flex" style="gap: 10px;">
                                                             <a href="" class="btn btn-warning">Edit</a>
                                                             <button type="button" class="btn btn-danger delete-button"
-                                                                data-id="{{ $keluarga->id }}"
-                                                                data-name="{{ $keluarga->nama }}">Hapus</button>
+                                                                data-id="{{ $penyakit->id }}"
+                                                                data-name="{{ $penyakit->nama }}">Hapus</button>
 
                                                         </div>
                                                     </td>
@@ -107,7 +111,7 @@
                         if (result.isConfirmed) {
                             const form = document.createElement('form');
                             form.method = 'POST';
-                            form.action = `/keluarga-berencana/${userId}`;
+                            form.action = `/penyakit/${userId}`;
                             form.innerHTML = `
                     @csrf
                     @method('DELETE')

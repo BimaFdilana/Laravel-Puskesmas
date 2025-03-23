@@ -5,6 +5,9 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\Blank;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KeluargaBerencanaController;
+use App\Http\Controllers\ImunisasiController;
+use App\Http\Controllers\IbuHamilController;
+use App\Http\Controllers\PenyakitController;
 
 Route::get('/', function () {
     return view('pages.web.beranda-page');
@@ -32,6 +35,19 @@ Route::middleware(['auth'])->group(function() {
 
     // keluarga berencana
     Route::get('keluarga-berencana', [KeluargaBerencanaController::class, 'index'])->name('keluargaBerencana');
+    Route::delete('keluarga-berencana/{id}', [KeluargaBerencanaController::class, 'destroy'])->name('deleteKeluargaBerencana');
+
+    // imunisasi
+    Route::get('imunisasi', [ImunisasiController::class, 'index'])->name('imunisasi');
+    Route::delete('imunisasi/{id}', [ImunisasiController::class, 'destroy'])->name('deleteImunisasi');
+
+    // ibu hamil
+    Route::get('ibu-hamil', [IbuHamilController::class, 'index'])->name('ibuHamil');
+    Route::delete('ibu-hamil/{id}', [IbuHamilController::class, 'destroy'])->name('deleteIbuHamil');
+
+    // penyakit
+    Route::get('penyakit', [PenyakitController::class, 'index'])->name('penyakit');
+    Route::delete('penyakit/{id}', [PenyakitController::class, 'destroy'])->name('deletePenyakit');
 
     // laporan data pustu
 

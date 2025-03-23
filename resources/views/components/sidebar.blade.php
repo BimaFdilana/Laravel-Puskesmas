@@ -48,19 +48,20 @@
                 </li>
                 <li class="menu-header">Data Pustu</li>
                 <li class="{{ Request::is('keluargaBerencana') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('keluargaBerencana') }}"><i class="fa fa-users"></i> <span>Keluarga
+                    <a class="nav-link" href="{{ route('keluargaBerencana') }}"><i class="fa fa-users"></i>
+                        <span>Keluarga
                             Berencana</span></a>
                 </li>
-                <li class="{{ Request::is('blank') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-heartbeat"></i>
+                <li class="{{ Request::is('imunisasi') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('imunisasi') }}"><i class="fa fa-heartbeat"></i>
                         <span>Imunisasi</span></a>
                 </li>
-                <li class="{{ Request::is('blank') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-stethoscope"></i> <span>Ibu
+                <li class="{{ Request::is('ibuHamil') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('ibuHamil') }}"><i class="fa fa-stethoscope"></i> <span>Ibu
                             Hamil</span></a>
                 </li>
-                <li class="{{ Request::is('blank') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-medkit"></i>
+                <li class="{{ Request::is('penyakit') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('penyakit') }}"><i class="fa fa-medkit"></i>
                         <span>Penyakit</span></a>
                 </li>
                 <li class="menu-header">Laporan Pustu</li>

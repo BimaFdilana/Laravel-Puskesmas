@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Keluarga Berencana Page')
+@section('title', 'Imunisasi Page')
 
 @push('style')
 @endpush
@@ -9,7 +9,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Keluarga Berencana</h1>
+                <h1>Imunisasi</h1>
             </div>
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -23,7 +23,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            <a href="" class="btn btn-success mb-3">Tambah Data KB</a>
+            <a href="" class="btn btn-success mb-3">Tambah Data Imunisasi</a>
             <div class="section-body">
                 <div class="row">
                     <div class="col-12">
@@ -35,26 +35,30 @@
                                             <th>No</th>
                                             <th>Nama</th>
                                             <th>Umur</th>
-                                            <th>Tipe</th>
+                                            <th>Jenis Kelamin</th>
+                                            <th>Nama Ayah</th>
+                                            <th>Nama Ibu</th>
                                             <th>Action</th>
                                         </tr>
-                                        @if ($kb->isEmpty())
+                                        @if ($imun->isEmpty())
                                             <tr>
                                                 <td colspan="5" class="text-center">Tidak ada data</td>
                                             </tr>
                                         @else
-                                            @foreach ($kb as $index => $keluarga)
+                                            @foreach ($imun as $index => $imunisasi)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $keluarga->nama }}</td>
-                                                    <td>{{ $keluarga->umur }}</td>
-                                                    <td>{{ $keluarga->type }}</td>
+                                                    <td>{{ $imunisasi->nama }}</td>
+                                                    <td>{{ $imunisasi->umur }}</td>
+                                                    <td>{{ $imunisasi->jenis_kelamin }}</td>
+                                                    <td>{{ $imunisasi->nama_ayah }}</td>
+                                                    <td>{{ $imunisasi->nama_ibu }}</td>
                                                     <td>
                                                         <div class="d-flex" style="gap: 10px;">
                                                             <a href="" class="btn btn-warning">Edit</a>
                                                             <button type="button" class="btn btn-danger delete-button"
-                                                                data-id="{{ $keluarga->id }}"
-                                                                data-name="{{ $keluarga->nama }}">Hapus</button>
+                                                                data-id="{{ $imunisasi->id }}"
+                                                                data-name="{{ $imunisasi->nama }}">Hapus</button>
 
                                                         </div>
                                                     </td>
@@ -107,7 +111,7 @@
                         if (result.isConfirmed) {
                             const form = document.createElement('form');
                             form.method = 'POST';
-                            form.action = `/keluarga-berencana/${userId}`;
+                            form.action = `/imunisasi/${userId}`;
                             form.innerHTML = `
                     @csrf
                     @method('DELETE')
