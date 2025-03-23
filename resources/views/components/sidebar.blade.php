@@ -47,8 +47,8 @@
                         <span>Dashboard</span></a>
                 </li>
                 <li class="menu-header">Data Pustu</li>
-                <li class="{{ Request::is('blank') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-users"></i> <span>Keluarga
+                <li class="{{ Request::is('keluargaBerencana') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('keluargaBerencana') }}"><i class="fa fa-users"></i> <span>Keluarga
                             Berencana</span></a>
                 </li>
                 <li class="{{ Request::is('blank') ? 'active' : '' }}">

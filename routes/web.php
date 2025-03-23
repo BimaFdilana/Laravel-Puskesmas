@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\Blank;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\KeluargaBerencanaController;
 
 Route::get('/', function () {
     return view('pages.web.beranda-page');
@@ -15,7 +16,7 @@ Route::get('contact', [LandingPageController::class, 'kontak'])->name('contact')
 
 Route::middleware(['auth'])->group(function() {
     Route::get('home', function(){
-        return view('pages.web.beranda-page', ['type_menu' => '']);
+        return view('pages.web.beranda-page');
     })->name('home');
 
     // dashboard
@@ -28,6 +29,9 @@ Route::middleware(['auth'])->group(function() {
     // register pustu
     Route::get('/registerPustu', [AuthController::class, 'showRegisterForm'])->name('registerForm');
     Route::post('/registerPustu', [AuthController::class, 'registerPustu'])->name('registerPustu');
+
+    // keluarga berencana
+    Route::get('keluarga-berencana', [KeluargaBerencanaController::class, 'index'])->name('keluargaBerencana');
 
     // laporan data pustu
 
