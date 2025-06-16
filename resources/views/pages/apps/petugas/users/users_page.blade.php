@@ -52,7 +52,7 @@
                                                     <td>{{ $user->role->name }}</td>
                                                     <td>
                                                         <div class="d-flex" style="gap: 10px;">
-                                                            <a href="{{ route('editUserData') }}"
+                                                            <a href="{{ route('editUserData', $user->id) }}"
                                                                 class="btn btn-warning">Edit</a>
                                                             <button type="button" class="btn btn-danger delete-button"
                                                                 data-id="{{ $user->id }}"

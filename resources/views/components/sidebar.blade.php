@@ -56,8 +56,8 @@
                     <a class="nav-link" href="{{ route('imunisasi') }}"><i class="fa fa-heartbeat"></i>
                         <span>Imunisasi</span></a>
                 </li>
-                <li class="{{ Request::is('ibuHamil') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('ibuHamil') }}"><i class="fa fa-stethoscope"></i> <span>Ibu
+                <li class="{{ Request::is('anc') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('anc.index') }}"><i class="fa fa-stethoscope"></i> <span>Ibu
                             Hamil</span></a>
                 </li>
                 <li class="{{ Request::is('penyakit') ? 'active' : '' }}">

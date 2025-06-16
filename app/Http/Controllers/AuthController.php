@@ -28,7 +28,7 @@ class AuthController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $user = User::create([
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -38,52 +38,59 @@ class AuthController extends Controller
         return redirect()->route('usersData')->with('success', 'User created successfully');
     }
 
+    public function settingAccount() {
+        $users = User::find(auth()->user()->id);
+        return view('pages.apps.petugas.users.users_page_edit', compact('users'));
+    }
+
     public function showUserData()
     {
         $users = User::with('role')->where('role_id', 2)->get();
         return view('pages.apps.petugas.users.users_page', compact('users'));
     }
 
-    public function editUserData()
+    public function editUserData(string $id)
     {
-        return view('pages.apps.petugas.users.users_page_edit');
+        $users = User::findOrFail($id);
+        return view('pages.apps.petugas.users.users_page_edit', compact('users'));
     }
 
 
-    public function store(Request $request)
+    public function updateUserData(Request $request, string $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'password' => 'nullable|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        return redirect()->route('usersData')->with('success', 'User updated successfully');
     }
-
-
-    public function show(string $id)
-    {
-        //
-    }
-
-
-    public function edit(string $id)
-    {
-        //
-    }
-
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
 
     public function destroy($id)
-{
-    try {
-        $user = User::findOrFail($id);
-        $user->delete();
+    {
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
 
-        return redirect()->back()->with('success', 'Akun berhasil dihapus.');
-    } catch (\Exception $e) {
-        return redirect()->back()->with('error', 'Gagal menghapus akun.');
+            return redirect()->back()->with('success', 'Akun berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menghapus akun.');
+        }
     }
-}
 
 }

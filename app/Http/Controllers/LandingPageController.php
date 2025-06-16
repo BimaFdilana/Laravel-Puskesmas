@@ -10,7 +10,7 @@ class LandingPageController extends Controller
     public function landingPage()
     {
     $userCount = User::where('role_id', 2)->count();
-    return view('pages.apps.petugas.dashboard', compact('userCount'));
+    return view('pages.apps.dashboard', compact('userCount'));
     }
 
     public function tentangKami ()

@@ -54,7 +54,7 @@
                                     </div>
                                 </div>
                                 <div class="d-grid">
-                                    <button class="btn btn-success btn-lg" type="submit">Log in now</button>
+                                    <button class="btn btn-success btn-lg" type="submit">Login</button>
                                 </div>
                             </form>
                             <div class="text-center mt-4">

@@ -14,12 +14,12 @@ class ProjectSeeder extends Seeder
     public function run(): void
     {
         DB::table('roles')->insert([
-            'name' => 'admin',
+            'name' => 'petugas',
             'redirect_to' => '/home'
         ]);
 
         DB::table('roles')->insert([
-            'name' => 'user',
+            'name' => 'pustu',
             'redirect_to' => '/home'
         ]);
 
@@ -68,20 +68,6 @@ class ProjectSeeder extends Seeder
             'jenis_kelamin' => 'Perempuan',
             'nama_ayah' => 'Project 2',
             'nama_ibu' => 'Project 2',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('ibu_hamil')->insert([
-            'nama' => 'Project 1',
-            'umur' => 'Project 1',
-            'umur_kandungan' => '1 tahun',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('ibu_hamil')->insert([
-            'nama' => 'Project 2',
-            'umur' => 'Project 2',
-            'umur_kandungan' => '2 tahun',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

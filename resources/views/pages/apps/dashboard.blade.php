@@ -12,7 +12,11 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Dashboard</h1>
+                @if (Auth::user()->role_id == 1)
+                    <h1>Dashboard Petugas Puskesmas</h1>
+                @else
+                    <h1>Dashboard Puskesmas Pembantu</h1>
+                @endif
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
