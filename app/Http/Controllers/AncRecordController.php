@@ -7,6 +7,7 @@ use App\Models\AncRecord;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
 
+
 class AncRecordController extends Controller
 {
     public function index()
@@ -98,94 +99,164 @@ class AncRecordController extends Controller
     public function exportWord(AncRecord $ancRecord)
     {
         $phpWord = new PhpWord();
+        $phpWord->setDefaultFontName('Times New Roman');
+        $phpWord->setDefaultFontSize(10);
+
         $section = $phpWord->addSection();
 
         // Header
         $section->addText(
             'FORM ANC SESUAI STANDAR',
-            ['bold' => true, 'size' => 16],
-            ['alignment' => 'center']
+            ['bold' => true, 'size' => 14],
+            ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER]
         );
         $section->addTextBreak(1);
 
         // Data Pasien
-        $section->addText("No. Rekam medis/Kohort\t: {$ancRecord->rekam_medis}/{$ancRecord->kohort}");
-        $section->addText("Nama pasien\t\t: {$ancRecord->nama_pasien}");
-        $section->addText("Alamat (sesuai KTP)\t: {$ancRecord->alamat}");
-        $section->addText("NIK\t\t\t: {$ancRecord->nik}");
-        $section->addText("Petugas\t\t\t: {$ancRecord->petugas}");
-        $section->addTextBreak(1);
+        $tableStyleNoBorder = ['borderSize' => 0, 'borderColor' => 'FFFFFF', 'cellMargin' => 0];
+        $patientTable = $section->addTable($tableStyleNoBorder);
+        $rowHeight = 400;
 
-        // Tabel ANC
-        $section->addText('Form ANC', ['bold' => true]);
-        $section->addTextBreak(1);
+        $patientTable->addRow($rowHeight);
+        $patientTable->addCell(3000)->addText("No. Rekam medis/Kohort");
+        $patientTable->addCell(300)->addText(":");
+        $patientTable->addCell(6000)->addText("{$ancRecord->rekam_medis}/{$ancRecord->kohort}");
 
-        $table = $section->addTable([
-            'borderSize' => 6,
-            'borderColor' => '000000',
-            'cellMargin' => 80
-        ]);
+        $patientTable->addRow($rowHeight);
+        $patientTable->addCell(3000)->addText("Nama pasien");
+        $patientTable->addCell(300)->addText(":");
+        $patientTable->addCell(6000)->addText($ancRecord->nama_pasien);
 
-        // Header tabel
+        $patientTable->addRow($rowHeight);
+        $patientTable->addCell(3000)->addText("Alamat (sesuai KTP)");
+        $patientTable->addCell(300)->addText(":");
+        $patientTable->addCell(6000)->addText($ancRecord->alamat);
+
+        $patientTable->addRow($rowHeight);
+        $patientTable->addCell(3000)->addText("NIK");
+        $patientTable->addCell(300)->addText(":");
+        $patientTable->addCell(6000)->addText($ancRecord->nik);
+
+        $patientTable->addRow($rowHeight);
+        $patientTable->addCell(3000)->addText("Petugas");
+        $patientTable->addCell(300)->addText(":");
+        $patientTable->addCell(6000)->addText($ancRecord->petugas);
+
+        $section->addTextBreak(2);
+
+        // Tabel ANC Kompleks
+        $tableStyle = ['borderSize' => 6, 'borderColor' => '000000', 'cellMargin' => 80];
+        $boldStyle = ['bold' => true];
+        $centerAligned = ['align' => 'center'];
+        $boldCentered = ['bold' => true, 'align' => 'center'];
+
+        $cellVCentered = ['valign' => 'center'];
+        $cellRowSpan = ['vMerge' => 'continue', 'valign' => 'center'];
+
+        $table = $section->addTable($tableStyle);
+        $table->setWidth(10000);
+
+        $colWidths = [
+            'No'        => 600,
+            'Kontak'    => 3000,
+            'K1'        => 800,
+            'K2'        => 800,
+            'K3'        => 800,
+            'K4'        => 800,
+            'K5'        => 800,
+            'K6'        => 800,
+        ];
+
+        // --- BARIS 1 ---
         $table->addRow();
-        $table->addCell(500)->addText('No', ['bold' => true]);
-        $table->addCell(4000)->addText('Kontak ke Usia minggu', ['bold' => true]);
-        $table->addCell(800)->addText('K1 0-12 minggu', ['bold' => true]);
-        $table->addCell(800)->addText('K2 >12-24 minggu', ['bold' => true]);
-        $table->addCell(800)->addText('K3 >12-24 minggu', ['bold' => true]);
-        $table->addCell(800)->addText('K4 >24 minggu sampai kelahiran', ['bold' => true]);
-        $table->addCell(800)->addText('K5 >24 minggu sampai kelahiran', ['bold' => true]);
-        $table->addCell(800)->addText('K6 >24 minggu sampai kelahiran', ['bold' => true]);
+        $cell1_1 = $table->addCell($colWidths['No'], ['vMerge' => 'restart', 'valign' => 'center']);
+        $cell1_1->addText('No', $boldStyle, $centerAligned);
 
-        // Baris ANC sesuai standar
-        $table->addRow();
-        $table->addCell()->addText('');
-        $table->addCell()->addText('ANC sesuai standar', ['bold' => true]);
-        $table->addCell()->addText('');
-        $table->addCell()->addText('');
-        $table->addCell()->addText('');
-        $table->addCell()->addText('');
-        $table->addCell()->addText('');
-        $table->addCell()->addText('');
+        $table->addCell($colWidths['Kontak'])->addText('Kontak ke', $boldStyle, $centerAligned);
+        $table->addCell($colWidths['K1'])->addText('K1', $boldStyle, $centerAligned);
+        $table->addCell($colWidths['K2'])->addText('K2', $boldStyle, $centerAligned);
+        $table->addCell($colWidths['K3'])->addText('K3', $boldStyle, $centerAligned);
+        $table->addCell($colWidths['K4'])->addText('K4', $boldStyle, $centerAligned);
+        $table->addCell($colWidths['K5'])->addText('K5', $boldStyle, $centerAligned);
+        $table->addCell($colWidths['K6'])->addText('K6', $boldStyle, $centerAligned);
 
-        // Baris Sumber
+        // --- BARIS 2 ---
         $table->addRow();
-        $table->addCell()->addText('');
-        $table->addCell()->addText('Sumber', ['bold' => true]);
-        $table->addCell()->addText('');
-        $table->addCell()->addText('');
-        $table->addCell()->addText('');
-        $table->addCell()->addText('');
-        $table->addCell()->addText('');
-        $table->addCell()->addText('');
+        $table->addCell(null, $cellRowSpan);
+        $cell2_2 = $table->addCell($colWidths['Kontak'], ['vMerge' => 'restart', 'valign' => 'center']);
+        $cell2_2->addText('Usia minggu', $boldCentered, $centerAligned);
+        $cell2_3 = $table->addCell($colWidths['K1'], ['vMerge' => 'restart', 'valign' => 'center']);
+        $cell2_3->addText('0-12 Minggu', $boldCentered, $centerAligned);
+        $cell2_4 = $table->addCell($colWidths['K2'] + $colWidths['K3'], ['gridSpan' => 2, 'vMerge' => 'restart', 'valign' => 'center']);
+        $cell2_4->addText('>12-24 Minggu', $boldCentered, $centerAligned);
+        $cell2_6 = $table->addCell($colWidths['K4'] + $colWidths['K5'] + $colWidths['K6'], ['gridSpan' => 3, 'vMerge' => 'restart', 'valign' => 'center']);
+        $cell2_6->addText('> 24 Minggu Sampai Kelahiran', $boldCentered, $centerAligned);
+
+        // --- BARIS 3 ---
+        $table->addRow();
+        $table->addCell(null, $cellRowSpan);
+        $table->addCell(null, $cellRowSpan);
+        $table->addCell(null, $cellRowSpan);
+        $table->addCell(null, ['gridSpan' => 2, 'vMerge' => 'continue']);
+        $table->addCell(null, ['gridSpan' => 3, 'vMerge' => 'continue']);
+
+        // --- BARIS 4 ---
+        $table->addRow();
+        $table->addCell(null, $cellRowSpan);
+        $table->addCell($colWidths['Kontak'])->addText('ANC sesuai standart', $boldStyle);
+        $table->addCell($colWidths['K1']);
+        $table->addCell($colWidths['K2']);
+        $table->addCell($colWidths['K3']);
+        $table->addCell($colWidths['K4']);
+        $table->addCell($colWidths['K5']);
+        $table->addCell($colWidths['K6']);
+
+        // --- BARIS 5 ---
+        $table->addRow();
+        $table->addCell(null, $cellRowSpan);
+        $table->addCell($colWidths['Kontak'])->addText('Sumber');
+        $table->addCell($colWidths['K1']);
+        $table->addCell($colWidths['K2']);
+        $table->addCell($colWidths['K3']);
+        $table->addCell($colWidths['K4']);
+        $table->addCell($colWidths['K5']);
+        $table->addCell($colWidths['K6']);
 
         // Data ANC Items
-        $ancItems = AncRecord::getAncItems();
+        $ancItems = \App\Models\AncRecord::getAncItems(); // Gunakan path lengkap ke model
         foreach ($ancItems as $no => $item) {
             $table->addRow();
-            $table->addCell()->addText($no);
-            $table->addCell()->addText($item);
+            $table->addCell($colWidths['No'])->addText($no);
+            $table->addCell($colWidths['Kontak'])->addText($item);
 
-            // Check untuk setiap kunjungan
+            // ========================================================= //
+            // ========== INI BAGIAN YANG DIPERBAIKI UTAMA ============= //
             foreach (['k1', 'k2', 'k3', 'k4', 'k5', 'k6'] as $kunjungan) {
-                $checked = isset($ancRecord->$kunjungan) &&
-                    is_array($ancRecord->$kunjungan) &&
-                    in_array($no, $ancRecord->$kunjungan) ? '✓' : '';
-                $table->addCell()->addText($checked);
+                // Decode string JSON dari database menjadi array PHP
+                $checkedItems = json_decode($ancRecord->$kunjungan);
+
+                // Periksa apakah hasil decode adalah array dan apakah nomor item ($no) ada di dalam array
+                $checked = (is_array($checkedItems) && in_array($no, $checkedItems)) ? '✓' : '';
+
+                // Tambahkan sel dengan hasil (checklist atau kosong)
+                $table->addCell($colWidths[strtoupper($kunjungan)])->addText($checked, null, $centerAligned);
             }
+            // ========================================================= //
+            // ========================================================= //
         }
 
         $section->addTextBreak(1);
         $section->addText('Keterangan:', ['bold' => true]);
+        $section->addTextBreak(1);
         $section->addText('1. Ceklis kolom ANC sesuai standar terlebih dahulu');
         $section->addText('2. Ceklis sesuai dengan pelayanan yang dilakukan');
 
-        $fileName = 'Form_ANC_' . $ancRecord->nama_pasien . '_' . date('Y-m-d') . '.docx';
-
-        $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+        // Penyimpanan File
+        $fileName = 'Form_ANC_' . str_replace(' ', '_', $ancRecord->nama_pasien) . '_' . date('Y-m-d') . '.docx';
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
-        $objWriter->save($temp_file);
+        $tempFile = tempnam(sys_get_temp_dir(), $fileName);
+        $objWriter->save($tempFile);
 
-        return response()->download($temp_file, $fileName)->deleteFileAfterSend(true);
+        return response()->download($tempFile, $fileName)->deleteFileAfterSend(true);
     }
 }
