@@ -9,6 +9,7 @@ class AncRecord extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'id',
         'rekam_medis',
         'kohort',
         'nama_pasien',
@@ -24,6 +25,7 @@ class AncRecord extends Model
     ];
 
     protected $casts = [
+        'id' => 'integer',
         'k1' => 'array',
         'k2' => 'array',
         'k3' => 'array',

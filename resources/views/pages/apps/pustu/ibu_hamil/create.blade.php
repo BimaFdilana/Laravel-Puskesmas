@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Ibu Hamil Page Create')
+@section('title', 'Tambah Data Ibu Hamil')
 
 @push('style')
     <style>
@@ -13,7 +13,7 @@
         }
 
         .table th {
-            background-color: #f8f9fa;
+            background-color: #ffff;
             font-weight: bold;
             text-align: center;
             vertical-align: middle;
@@ -33,17 +33,17 @@
 @endpush
 
 @section('main')
-    <br>
-    <br>
-    <br>
-    <br>
-    <div class="container mt-4">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
+    <div class="main-content">
+        <section class="section">
+            <div class="section-header d-flex justify-content-between w-100">
+                <h1>Tambah Data Ibu Hamil (ANC)</h1>
+                <a href="{{ route('anc.index') }}" class="btn btn-danger">
+                    <i class="fas fa-arrow-left"></i> Kembali
+                </a>
+            </div>
+
+            <div class="section-body">
                 <div class="card">
-                    <div class="card-header">
-                        <h4 class="text-center mb-0">FORM ANC SESUAI STANDAR</h4>
-                    </div>
                     <div class="card-body">
                         <form action="{{ route('anc.store') }}" method="POST">
                             @csrf
@@ -81,50 +81,24 @@
                             </div>
 
                             <!-- Form ANC -->
-                            <h5 class="mb-3">Form ANC</h5>
                             <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th rowspan="2" style="width: 50px;">No</th>
                                             <th rowspan="2" style="width: 300px;">Kontak ke<br>Usia minggu</th>
-                                            <th>K1</th>
-                                            <th>K2</th>
-                                            <th>K3</th>
-                                            <th>K4</th>
-                                            <th>K5</th>
-                                            <th>K6</th>
+                                            <th colspan="6">Kunjungan</th>
                                         </tr>
                                         <tr>
-                                            <th style="font-size: 12px;">0-12<br>minggu</th>
-                                            <th style="font-size: 12px;">>12-24<br>minggu</th>
-                                            <th style="font-size: 12px;">>12-24<br>minggu</th>
-                                            <th style="font-size: 12px;">>24 minggu<br>sampai kelahiran</th>
-                                            <th style="font-size: 12px;">>24 minggu<br>sampai kelahiran</th>
-                                            <th style="font-size: 12px;">>24 minggu<br>sampai kelahiran</th>
+                                            <th style="font-size: 12px;">(K1)<br>0-12 Minggu</th>
+                                            <th style="font-size: 12px;">(K2)<br>>12-24 minggu</th>
+                                            <th style="font-size: 12px;">(K3)<br>>12-24 minggu</th>
+                                            <th style="font-size: 12px;">(K4)<br>24 s/d Kelahiran</th>
+                                            <th style="font-size: 12px;">(K5)<br>24 s/d Kelahiran</th>
+                                            <th style="font-size: 12px;">(K6)<br>24 s/d Kelahiran</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="table-secondary">
-                                            <td></td>
-                                            <td><strong>ANC sesuai standar</strong></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr class="table-light">
-                                            <td></td>
-                                            <td><strong>Sumber</strong></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
                                         @foreach ($ancItems as $no => $item)
                                             <tr>
                                                 <td class="text-center">{{ $no }}</td>
@@ -143,26 +117,17 @@
                                     </tbody>
                                 </table>
                             </div>
-
-                            <!-- Keterangan -->
-                            <div class="mt-4">
-                                <h6>Keterangan:</h6>
-                                <ol>
-                                    <li>Ceklis kolom ANC sesuai standar terlebih dahulu</li>
-                                    <li>Ceklis sesuai dengan pelayanan yang dilakukan</li>
-                                </ol>
-                            </div>
-
                             <!-- Submit Button -->
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-                                <a href="{{ route('anc.index') }}" class="btn btn-secondary me-md-2">Kembali</a>
-                                <button type="submit" class="btn btn-primary">Simpan Data</button>
+                            <div class="d-flex justify-content-end mt-4">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Simpan Data
+                                </button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-        </div>
+    </div>
     </div>
 @endsection
 

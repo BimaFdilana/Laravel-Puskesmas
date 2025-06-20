@@ -53,22 +53,20 @@ class AncRecordController extends Controller
         return redirect()->route('anc.index')->with('success', 'Anc Record created successfully');
     }
 
-
-    public function show(AncRecord $ancRecord)
+    public function edit(String $id)
     {
+        $ancRecord = AncRecord::findOrFail($id);
+        foreach (['k1', 'k2', 'k3', 'k4', 'k5', 'k6'] as $kunjungan) {
+            $ancRecord->$kunjungan = json_decode($ancRecord->$kunjungan ?? '[]', true);
+        }
         $ancItems = AncRecord::getAncItems();
         $kunjunganTypes = AncRecord::getKunjunganTypes();
-        return view('pages.apps.pustu.ibu_hamil.show', compact('ancRecord', 'ancItems', 'kunjunganTypes'));
-    }
 
-    public function edit(AncRecord $ancRecord)
-    {
-        $ancItems = AncRecord::getAncItems();
-        $kunjunganTypes = AncRecord::getKunjunganTypes();
         return view('pages.apps.pustu.ibu_hamil.edit', compact('ancRecord', 'ancItems', 'kunjunganTypes'));
     }
 
-    public function update(Request $request, AncRecord $ancRecord)
+
+    public function update(Request $request, String $id)
     {
         $validated = $request->validate([
             'rekam_medis' => 'required|string',
@@ -84,14 +82,23 @@ class AncRecordController extends Controller
             'k5' => 'nullable|array',
             'k6' => 'nullable|array',
         ]);
+        foreach (['k1', 'k2', 'k3', 'k4', 'k5', 'k6'] as $kunjungan) {
+            $validated[$kunjungan] = json_encode($request->input($kunjungan, []));
+        }
 
-        $ancRecord->update($validated);
-
-        return redirect()->route('anc.index')->with('success', 'Data ANC berhasil diupdate!');
+        try {
+            $ancRecord = AncRecord::findOrFail($id);
+            $ancRecord->update($validated);
+            return redirect()->route('anc.index')->with('success', 'Anc Record updated successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Anc Record update failed');
+        }
     }
 
-    public function destroy(AncRecord $ancRecord)
+
+    public function destroy(String $id)
     {
+        $ancRecord = AncRecord::findOrFail($id);
         $ancRecord->delete();
         return redirect()->route('anc.index')->with('success', 'Data ANC berhasil dihapus!');
     }
