@@ -33,12 +33,10 @@
                             Akun</span></a>
                 </li>
                 <li class="menu-header">Website Setting</li>
-                <li class="{{ Request::is('blank') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-globe"></i> <span>Beranda
-                            Page</span></a>
-                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-info"></i> <span>Tentang
-                            Kami</span></a>
-                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-phone"></i> <span>Kontak</span></a>
+                <li
+                    class="{{ Request::is('admin/beranda*') || Request::is('admin/services*') || Request::is('admin/doctors*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.beranda.edit') }}"><i class="fa fa-globe"></i>
+                        <span>Kelola Beranda</span></a>
                 </li>
             @else
                 <li class="menu-header">Dashboard</li>
