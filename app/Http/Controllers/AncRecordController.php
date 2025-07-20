@@ -7,7 +7,6 @@ use App\Models\AncRecord;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
 
-
 class AncRecordController extends Controller
 {
     public function index()
@@ -25,35 +24,31 @@ class AncRecordController extends Controller
 
     public function store(Request $request)
     {
-        $validate = $request->validate([
+        $validated = $request->validate([
             'rekam_medis' => 'required|string',
             'kohort' => 'required|string',
             'nama_pasien' => 'required|string',
             'alamat' => 'required|string',
             'nik' => 'required|string',
             'petugas' => 'required|string',
-            'k1' => 'required|array',
-            'k2' => 'required|array',
-            'k3' => 'required|array',
-            'k4' => 'required|array',
-            'k5' => 'required|array',
-            'k6' => 'required|array',
+            'k1' => 'nullable|array',
+            'k2' => 'nullable|array',
+            'k3' => 'nullable|array',
+            'k4' => 'nullable|array',
+            'k5' => 'nullable|array',
+            'k6' => 'nullable|array',
         ]);
 
-        // Ubah array ke JSON jika kolom di DB bertipe JSON
-        $validate['k1'] = json_encode($validate['k1']);
-        $validate['k2'] = json_encode($validate['k2']);
-        $validate['k3'] = json_encode($validate['k3']);
-        $validate['k4'] = json_encode($validate['k4']);
-        $validate['k5'] = json_encode($validate['k5']);
-        $validate['k6'] = json_encode($validate['k6']);
+        foreach (['k1', 'k2', 'k3', 'k4', 'k5', 'k6'] as $kunjungan) {
+            $validated[$kunjungan] = json_encode($request->input($kunjungan, []));
+        }
 
-        AncRecord::create($validate);
+        AncRecord::create($validated);
 
         return redirect()->route('anc.index')->with('success', 'Anc Record created successfully');
     }
 
-    public function edit(String $id)
+    public function edit(string $id)
     {
         $ancRecord = AncRecord::findOrFail($id);
         foreach (['k1', 'k2', 'k3', 'k4', 'k5', 'k6'] as $kunjungan) {
@@ -65,8 +60,7 @@ class AncRecordController extends Controller
         return view('pages.apps.pustu.ibu_hamil.edit', compact('ancRecord', 'ancItems', 'kunjunganTypes'));
     }
 
-
-    public function update(Request $request, String $id)
+    public function update(Request $request, string $id)
     {
         $validated = $request->validate([
             'rekam_medis' => 'required|string',
@@ -95,8 +89,7 @@ class AncRecordController extends Controller
         }
     }
 
-
-    public function destroy(String $id)
+    public function destroy(string $id)
     {
         $ancRecord = AncRecord::findOrFail($id);
         $ancRecord->delete();
@@ -112,11 +105,7 @@ class AncRecordController extends Controller
         $section = $phpWord->addSection();
 
         // Header
-        $section->addText(
-            'FORM ANC SESUAI STANDAR',
-            ['bold' => true, 'size' => 14],
-            ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER]
-        );
+        $section->addText('FORM ANC SESUAI STANDAR', ['bold' => true, 'size' => 14], ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER]);
         $section->addTextBreak(1);
 
         // Data Pasien
@@ -125,28 +114,28 @@ class AncRecordController extends Controller
         $rowHeight = 400;
 
         $patientTable->addRow($rowHeight);
-        $patientTable->addCell(3000)->addText("No. Rekam medis/Kohort");
-        $patientTable->addCell(300)->addText(":");
+        $patientTable->addCell(3000)->addText('No. Rekam medis/Kohort');
+        $patientTable->addCell(300)->addText(':');
         $patientTable->addCell(6000)->addText("{$ancRecord->rekam_medis}/{$ancRecord->kohort}");
 
         $patientTable->addRow($rowHeight);
-        $patientTable->addCell(3000)->addText("Nama pasien");
-        $patientTable->addCell(300)->addText(":");
+        $patientTable->addCell(3000)->addText('Nama pasien');
+        $patientTable->addCell(300)->addText(':');
         $patientTable->addCell(6000)->addText($ancRecord->nama_pasien);
 
         $patientTable->addRow($rowHeight);
-        $patientTable->addCell(3000)->addText("Alamat (sesuai KTP)");
-        $patientTable->addCell(300)->addText(":");
+        $patientTable->addCell(3000)->addText('Alamat (sesuai KTP)');
+        $patientTable->addCell(300)->addText(':');
         $patientTable->addCell(6000)->addText($ancRecord->alamat);
 
         $patientTable->addRow($rowHeight);
-        $patientTable->addCell(3000)->addText("NIK");
-        $patientTable->addCell(300)->addText(":");
+        $patientTable->addCell(3000)->addText('NIK');
+        $patientTable->addCell(300)->addText(':');
         $patientTable->addCell(6000)->addText($ancRecord->nik);
 
         $patientTable->addRow($rowHeight);
-        $patientTable->addCell(3000)->addText("Petugas");
-        $patientTable->addCell(300)->addText(":");
+        $patientTable->addCell(3000)->addText('Petugas');
+        $patientTable->addCell(300)->addText(':');
         $patientTable->addCell(6000)->addText($ancRecord->petugas);
 
         $section->addTextBreak(2);
@@ -164,14 +153,14 @@ class AncRecordController extends Controller
         $table->setWidth(10000);
 
         $colWidths = [
-            'No'        => 600,
-            'Kontak'    => 3000,
-            'K1'        => 800,
-            'K2'        => 800,
-            'K3'        => 800,
-            'K4'        => 800,
-            'K5'        => 800,
-            'K6'        => 800,
+            'No' => 600,
+            'Kontak' => 3000,
+            'K1' => 800,
+            'K2' => 800,
+            'K3' => 800,
+            'K4' => 800,
+            'K5' => 800,
+            'K6' => 800,
         ];
 
         // --- BARIS 1 ---
@@ -243,7 +232,7 @@ class AncRecordController extends Controller
                 $checkedItems = json_decode($ancRecord->$kunjungan);
 
                 // Periksa apakah hasil decode adalah array dan apakah nomor item ($no) ada di dalam array
-                $checked = (is_array($checkedItems) && in_array($no, $checkedItems)) ? '✓' : '';
+                $checked = is_array($checkedItems) && in_array($no, $checkedItems) ? '✓' : '';
 
                 // Tambahkan sel dengan hasil (checklist atau kosong)
                 $table->addCell($colWidths[strtoupper($kunjungan)])->addText($checked, null, $centerAligned);
