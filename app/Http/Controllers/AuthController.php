@@ -40,7 +40,7 @@ class AuthController extends Controller
 
     public function settingAccount() {
         $users = User::find(auth()->user()->id);
-        return view('pages.apps.petugas.users.users_page_edit', compact('users'));
+        return view('pages.apps.petugas.users.setting_data_user', compact('users'));
     }
 
     public function showUserData()

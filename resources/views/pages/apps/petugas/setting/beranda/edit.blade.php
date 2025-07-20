@@ -3,7 +3,6 @@
 @section('title', 'Kelola Halaman Beranda')
 
 @push('style')
-    {{-- Tambahkan style kustom di sini jika diperlukan --}}
 @endpush
 
 @section('main')
@@ -36,14 +35,6 @@
                                 </ul>
                             </div>
                         @endif
-
-                        {{-- Link untuk mengelola entitas terkait --}}
-                        <div class="alert alert-light">
-                            <p class="mb-2">Kelola bagian lain dari halaman beranda:</p>
-                            <a href="{{ route('services.index') }}" class="btn btn-primary mb-1">Kelola Services</a>
-                            <a href="{{ route('doctors.index') }}" class="btn btn-info mb-1">Kelola Dokter</a>
-                        </div>
-
                         <form action="{{ route('admin.beranda.update') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')

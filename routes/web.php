@@ -10,7 +10,9 @@ use App\Http\Controllers\PenyakitController;
 use App\Http\Controllers\AncRecordController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\admin\ServiceController;
-use App\Http\Controllers\admin\DoctorController;
+use App\Http\Controllers\admin\ContactController;
+use App\Http\Controllers\PublicContactController;
+use App\Http\Controllers\admin\MessageController;
 
 Route::get('/', [BerandaController::class, 'index'])->name('beranda');
 
@@ -18,8 +20,14 @@ Route::get('/', [BerandaController::class, 'index'])->name('beranda');
 Route::get('about', [LandingPageController::class, 'tentangKami'])->name('about');
 Route::get('contact', [LandingPageController::class, 'kontak'])->name('contact');
 
+Route::post('contact', [PublicContactController::class, 'store'])->name('contact.store');
+
 Route::middleware(['auth'])->group(function () {
     Route::get('home', [BerandaController::class, 'index'])->name('home');
+
+    Route::get('setting-akun', [AuthController::class, 'settingAccount'])->name('admin.account.setting');
+    Route::put('setting-akun/{id}', [AuthController::class, 'updateUserData'])->name('admin.account.update');
+
 
     // dashboard
     Route::get('dashboard', [LandingPageController::class, 'landingPage'])->name('dashboard');
@@ -28,9 +36,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/beranda', [BerandaController::class, 'edit'])->name('admin.beranda.edit');
     Route::put('/beranda', [BerandaController::class, 'update'])->name('admin.beranda.update');
 
-    // Resource routes untuk Services dan Doctors
+    Route::get('admin/contact', [ContactController::class, 'edit'])->name('admin.contact.edit');
+    Route::put('admin/contact', [ContactController::class, 'update'])->name('admin.contact.update');
+
+    Route::get('admin/messages', [MessageController::class, 'index'])->name('admin.messages.index');
+    Route::delete('admin/messages/{message}', [MessageController::class, 'destroy'])->name('admin.messages.destroy');
+
     Route::resource('services', ServiceController::class);
-    Route::resource('doctors', DoctorController::class);
 
     // user
     Route::get('users', [AuthController::class, 'showUserData'])->name('usersData');
@@ -55,11 +67,7 @@ Route::middleware(['auth'])->group(function () {
 
     // ANC
     Route::resource('anc', AncRecordController::class)->names('anc');
-    Route::get('anc/{ancRecord}/export-word', [AncRecordController::class, 'exportWord'])
-        ->name('anc.export-word');
-
-
-
+    Route::get('anc/{ancRecord}/export-word', [AncRecordController::class, 'exportWord'])->name('anc.export-word');
 
     Route::get('blank', [Blank::class, 'index'])->name('blank');
 });

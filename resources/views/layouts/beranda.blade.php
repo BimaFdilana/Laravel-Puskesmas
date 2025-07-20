@@ -54,16 +54,17 @@
                     <i class="fas fa-envelope"></i> Email: Uptpuskesmasmeskom@gmail.com
                 </a>
                 <ul class="navbar-nav ml-auto nav-right" data-easing="easeInOutExpo" data-speed="1250" data-offset="65">
-                    <li class="nav-item nav-custom-link">
+                    <li class="nav-item nav-custom-link {{ request()->routeIs('beranda') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('beranda') }}">Beranda</a>
                     </li>
-                    <li class="nav-item nav-custom-link">
+                    <li class="nav-item nav-custom-link {{ request()->routeIs('about') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('about') }}">Tentang Kami</a>
                     </li>
-                    <li class="nav-item nav-custom-link">
+                    <li class="nav-item nav-custom-link {{ request()->routeIs('contact') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('contact') }}">Kontak</a>
                     </li>
                 </ul>
+
             </div>
         </div>
     </nav>
@@ -85,14 +86,6 @@
                         <li><a href="#">Beranda</a></li>
                         <li><a href="#">Tentang Kami</a></li>
                         <li><a href="#">Kontak</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5>Kontak Kami</h5>
-                    <ul>
-                        <li>Alamat: </li>
-                        <li>Telepon: </li>
-                        <li>Email: </li>
                     </ul>
                 </div>
             </div>

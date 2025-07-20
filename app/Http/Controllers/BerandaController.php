@@ -15,11 +15,10 @@ class BerandaController extends Controller
      */
     public function index()
     {
-        $beranda = Beranda::first(); // Mengambil data pertama (dan satu-satunya)
+        $beranda = Beranda::first();
         $services = Service::all();
-        $doctors = Doctor::all();
 
-        return view('pages.web.beranda-page', compact('beranda', 'services', 'doctors'));
+        return view('pages.web.beranda-page', compact('beranda', 'services'));
     }
 
     /**
@@ -46,7 +45,6 @@ class BerandaController extends Controller
             'about_points' => 'required|string',
             'about_image_1' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'about_image_2' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            // ... tambahkan validasi untuk field lain
         ]);
 
         $beranda = Beranda::find(1);

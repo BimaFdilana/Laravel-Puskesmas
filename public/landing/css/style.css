@@ -102,6 +102,14 @@
     justify-content: space-between;
 }
 
+.nav-item.active > .nav-link {
+    color: #007bff;
+    font-weight: bold;
+    background-color: #10522b;
+    border-radius: 5px;
+}
+
+
 .header-carousel .owl-nav .owl-prev,
 .header-carousel .owl-nav .owl-next {
     width: 45px;
