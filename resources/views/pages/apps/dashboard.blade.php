@@ -3,7 +3,6 @@
 @section('title', 'Dashboard')
 
 @push('style')
-    <!-- CSS Libraries -->
     <link rel="stylesheet" href="{{ asset('library/jqvmap/dist/jqvmap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('library/summernote/dist/summernote-bs4.min.css') }}">
 @endpush
@@ -19,21 +18,23 @@
                 @endif
             </div>
             <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <div class="card card-statistic-1">
-                        <div class="card-icon bg-primary">
-                            <i class="far fa-user"></i>
-                        </div>
-                        <div class="card-wrap">
-                            <div class="card-header">
-                                <h4>Data Puskesmas Pembantu</h4>
+                @if (Auth::user()->role_id == 1)
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="card card-statistic-1">
+                            <div class="card-icon bg-primary">
+                                <i class="far fa-user"></i>
                             </div>
-                            <div class="card-body">
-                                {{ $userCount }}
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>Data Puskesmas Pembantu</h4>
+                                </div>
+                                <div class="card-body">
+                                    {{ $userCount }}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-danger">
@@ -49,36 +50,34 @@
                         </div>
                     </div>
                 </div>
-                {{-- CARD BARU UNTUK PESAN MASUK --}}
-                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <div class="card card-statistic-1">
-                        <div class="card-icon bg-warning">
-                            <i class="far fa-envelope"></i>
-                        </div>
-                        <div class="card-wrap">
-                            <div class="card-header">
-                                <h4>Total Pesan Masuk</h4>
+                @if (Auth::user()->role_id == 1)
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="card card-statistic-1">
+                            <div class="card-icon bg-warning">
+                                <i class="far fa-envelope"></i>
                             </div>
-                            <div class="card-body">
-                                {{ $messageCount }}
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>Total Pesan Masuk</h4>
+                                </div>
+                                <div class="card-body">
+                                    {{ $messageCount }}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @endif
             </div>
         </section>
     </div>
 @endsection
 
 @push('scripts')
-    <!-- JS Libraies -->
     <script src="{{ asset('library/simpleweather/jquery.simpleWeather.min.js') }}"></script>
     <script src="{{ asset('library/chart.js/dist/Chart.min.js') }}"></script>
     <script src="{{ asset('library/jqvmap/dist/jquery.vmap.min.js') }}"></script>
     <script src="{{ asset('library/jqvmap/dist/maps/jquery.vmap.world.js') }}"></script>
     <script src="{{ asset('library/summernote/dist/summernote-bs4.min.js') }}"></script>
     <script src="{{ asset('library/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
-
-    <!-- Page Specific JS File -->
     <script src="{{ asset('js/page/index-0.js') }}"></script>
 @endpush

@@ -5,7 +5,6 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\Blank;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KeluargaBerencanaController;
-use App\Http\Controllers\ImunisasiController;
 use App\Http\Controllers\PenyakitController;
 use App\Http\Controllers\AncRecordController;
 use App\Http\Controllers\BerandaController;
@@ -13,6 +12,7 @@ use App\Http\Controllers\admin\ServiceController;
 use App\Http\Controllers\admin\ContactController;
 use App\Http\Controllers\PublicContactController;
 use App\Http\Controllers\admin\MessageController;
+use App\Http\Controllers\ImunisasiBayiController;
 
 Route::get('/', [BerandaController::class, 'index'])->name('beranda');
 
@@ -27,7 +27,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('setting-akun', [AuthController::class, 'settingAccount'])->name('admin.account.setting');
     Route::put('setting-akun/{id}', [AuthController::class, 'updateUserData'])->name('admin.account.update');
-
 
     // dashboard
     Route::get('dashboard', [LandingPageController::class, 'landingPage'])->name('dashboard');
@@ -57,9 +56,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('keluarga-berencana', [KeluargaBerencanaController::class, 'index'])->name('keluargaBerencana');
     Route::delete('keluarga-berencana/{id}', [KeluargaBerencanaController::class, 'destroy'])->name('deleteKeluargaBerencana');
 
-    // imunisasi
-    Route::get('imunisasi', [ImunisasiController::class, 'index'])->name('imunisasi');
-    Route::delete('imunisasi/{id}', [ImunisasiController::class, 'destroy'])->name('deleteImunisasi');
+    // imunusasi
+    Route::get('imunisasi-bayi/export', [ImunisasiBayiController::class, 'export'])->name('imunisasi-bayi.export');
+    Route::resource('imunisasi-bayi', ImunisasiBayiController::class);
 
     // penyakit
     Route::get('penyakit', [PenyakitController::class, 'index'])->name('penyakit');
