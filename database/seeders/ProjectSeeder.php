@@ -15,12 +15,12 @@ class ProjectSeeder extends Seeder
     {
         DB::table('roles')->insert([
             'name' => 'petugas',
-            'redirect_to' => '/home'
+            'redirect_to' => '/home',
         ]);
 
         DB::table('roles')->insert([
             'name' => 'pustu',
-            'redirect_to' => '/home'
+            'redirect_to' => '/home',
         ]);
 
         DB::table('users')->insert([
@@ -50,42 +50,6 @@ class ProjectSeeder extends Seeder
             'nama' => 'Project 2',
             'umur' => 'Project 2',
             'type' => 'Project 2',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('imunisasi')->insert([
-            'nama' => 'Project 1',
-            'umur' => 'Project 1',
-            'jenis_kelamin' => 'Laki-laki',
-            'nama_ayah' => 'Project 1',
-            'nama_ibu' => 'Project 1',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('imunisasi')->insert([
-            'nama' => 'Project 2',
-            'umur' => 'Project 2',
-            'jenis_kelamin' => 'Perempuan',
-            'nama_ayah' => 'Project 2',
-            'nama_ibu' => 'Project 2',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('penyakit')->insert([
-            'nama' => 'Project 1',
-            'umur' => 'Project 1',
-            'jenis_kelamin' => 'Laki-laki',
-            'penyakit' => 'Project 1',
-            'gejala' => 'Project 1',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('penyakit')->insert([
-            'nama' => 'Project 2',
-            'umur' => 'Project 2',
-            'jenis_kelamin' => 'Perempuan',
-            'penyakit' => 'Project 2',
-            'gejala' => 'Project 2',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

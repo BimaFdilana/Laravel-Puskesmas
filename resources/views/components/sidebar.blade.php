@@ -64,10 +64,12 @@
                         <span>Keluarga
                             Berencana</span></a>
                 </li>
-                <li class="{{ Request::is('imunisasi') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('imunisasi') }}"><i class="fa fa-heartbeat"></i>
-                        <span>Imunisasi</span></a>
+                <li class="menu-header">Imunisasi</li>
+                <li class="{{ Request::is('imunisasi-bayi*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('imunisasi-bayi.index') }}"><i class="fa fa-heartbeat"></i>
+                        <span>Imunisasi Bayi</span></a>
                 </li>
+                <li class="menu-header">Ibu Hamil</li>
                 <li class="{{ Request::is('anc') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('anc.index') }}"><i class="fa fa-stethoscope"></i> <span>Ibu
                             Hamil</span></a>

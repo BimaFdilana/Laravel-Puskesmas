@@ -48,6 +48,14 @@ class AncRecordController extends Controller
         return redirect()->route('anc.index')->with('success', 'Anc Record created successfully');
     }
 
+    public function show(AncRecord $anc)
+    {
+        foreach (['k1', 'k2', 'k3', 'k4', 'k5', 'k6'] as $kunjungan) {
+            $anc->$kunjungan = json_decode($anc->$kunjungan) ?? [];
+        }
+        return response()->json($anc);
+    }
+
     public function edit(string $id)
     {
         $ancRecord = AncRecord::findOrFail($id);
