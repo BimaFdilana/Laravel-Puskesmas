@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\ImunisasiWusBumil;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
@@ -14,7 +15,7 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 
-class ImunisasiBayiExport implements WithEvents, WithColumnWidths, WithTitle, WithColumnFormatting
+class ImunisasiWusBumilExport implements WithEvents, WithColumnWidths, WithTitle, WithColumnFormatting
 {
     protected $data;
 
@@ -25,29 +26,27 @@ class ImunisasiBayiExport implements WithEvents, WithColumnWidths, WithTitle, Wi
 
     public function title(): string
     {
-        return 'Data Imunisasi Bayi';
+        return 'Data Imunisasi WUS & Bumil';
     }
 
     public function columnWidths(): array
     {
         return [
-            'A' => 5,
-            'B' => 20,
-            'C' => 20,
-            'D' => 15,
-            'E' => 5,
-            'F' => 20,
-            'G' => 30,
-            'H' => 20,
-            'I' => 20,
+            'A' => 5, // No
+            'B' => 20, // Nama Wus/Bumil
+            'C' => 20, // Nama Suami
+            'D' => 8, // Umur
+            'E' => 10, // Hamil Ke
+            'F' => 20, // Nama Imunisasi
+            'G' => 30, // Alamat
+            'H' => 20, // NIK
         ];
     }
 
     public function columnFormats(): array
     {
         return [
-            'H' => NumberFormat::FORMAT_TEXT,
-            'I' => NumberFormat::FORMAT_TEXT,
+            'H' => NumberFormat::FORMAT_TEXT, // Format kolom NIK sebagai Teks
         ];
     }
 
@@ -80,46 +79,51 @@ class ImunisasiBayiExport implements WithEvents, WithColumnWidths, WithTitle, Wi
                 ];
 
                 // --- JUDUL UTAMA ---
-                $sheet->mergeCells('A1:I2');
-                $sheet->setCellValue('A1', 'Nama-nama bayi yang di imunisasi');
+                $sheet->mergeCells('A1:H2');
+                $sheet->setCellValue('A1', 'Nama-Nama Wus dan Bumil yang Di Imunisasi');
                 $sheet->getStyle('A1')->applyFromArray($titleStyle);
                 $sheet->getStyle('A1')->getAlignment()->setWrapText(true);
 
                 // --- DATA ---
-                $rowNumber = 3;
+                $rowNumber = 3; // Mulai dari baris ke-3
 
-                foreach ($this->data as $posyanduName => $bayiGroup) {
-                    $sheet->mergeCells('A' . $rowNumber . ':I' . $rowNumber);
+                // Loop untuk setiap grup Posyandu
+                foreach ($this->data as $posyanduName => $wusBumilGroup) {
+                    // Set Nama Posyandu
+                    $sheet->mergeCells('A' . $rowNumber . ':H' . $rowNumber);
                     $sheet->setCellValue('A' . $rowNumber, 'Nama Posyandu: ' . $posyanduName);
                     $sheet->getStyle('A' . $rowNumber)->applyFromArray($posyanduTitleStyle);
                     $rowNumber++;
 
+                    // Set Header Tabel
                     $startHeaderRow = $rowNumber;
-                    $headers = ['No', 'Nama Bayi', 'Nama Orang tua', 'Tanggal Lahir', 'JK', 'Nama Imunisasi', 'Alamat Lengkap', 'NIK Orang Tua', 'NIK Balita'];
+                    $headers = ['No', 'Nama Wus/Bumil', 'Nama Suami', 'Umur', 'Hamil Ke', 'Nama Imunisasi', 'Alamat Lengkap', 'NIK'];
                     $sheet->fromArray($headers, null, 'A' . $rowNumber);
-                    $sheet->getStyle('A' . $rowNumber . ':I' . $rowNumber)->applyFromArray($headerStyle);
+                    $sheet->getStyle('A' . $rowNumber . ':H' . $rowNumber)->applyFromArray($headerStyle);
                     $rowNumber++;
 
+                    // Loop untuk setiap data di dalam grup
                     $nomor = 1;
-                    foreach ($bayiGroup as $bayi) {
+                    foreach ($wusBumilGroup as $item) {
                         $sheet->setCellValue('A' . $rowNumber, $nomor++);
-                        $sheet->setCellValue('B' . $rowNumber, $bayi->nama_bayi);
-                        $sheet->setCellValue('C' . $rowNumber, $bayi->nama_orang_tua);
-                        $sheet->setCellValue('D' . $rowNumber, $bayi->tanggal_lahir);
-                        $sheet->setCellValue('E' . $rowNumber, $bayi->jenis_kelamin);
-
-                        // PERBAIKAN: Mengambil nama imunisasi dari relasi
-                        $sheet->setCellValue('F' . $rowNumber, $bayi->jenisImunisasi->nama_imunisasi ?? 'N/A');
-
-                        $sheet->setCellValue('G' . $rowNumber, $bayi->alamat_lengkap);
-                        $sheet->setCellValueExplicit('H' . $rowNumber, $bayi->nik_orang_tua, DataType::TYPE_STRING);
-                        $sheet->setCellValueExplicit('I' . $rowNumber, $bayi->nik_bayi, DataType::TYPE_STRING);
+                        $sheet->setCellValue('B' . $rowNumber, $item->nama_wus_bumil);
+                        $sheet->setCellValue('C' . $rowNumber, $item->nama_suami);
+                        $sheet->setCellValue('D' . $rowNumber, $item->umur);
+                        $sheet->setCellValue('E' . $rowNumber, $item->hamil_ke);
+                        $sheet->setCellValue('F' . $rowNumber, $item->jenisImunisasi->nama_imunisasi ?? 'N/A');
+                        $sheet->setCellValue('G' . $rowNumber, $item->alamat_lengkap);
+                        $sheet->setCellValueExplicit('H' . $rowNumber, $item->nik, DataType::TYPE_STRING);
 
                         $rowNumber++;
                     }
 
+                    // Terapkan border ke seluruh tabel
                     $endDataRow = $rowNumber - 1;
-                    $sheet->getStyle('A' . $startHeaderRow . ':I' . $endDataRow)->applyFromArray($allBordersStyle);
+                    if ($endDataRow >= $startHeaderRow) {
+                        $sheet->getStyle('A' . $startHeaderRow . ':H' . $endDataRow)->applyFromArray($allBordersStyle);
+                    }
+
+                    // Beri jarak dua baris kosong sebelum grup berikutnya
                     $rowNumber += 2;
                 }
             },

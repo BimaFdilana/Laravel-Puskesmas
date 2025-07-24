@@ -6,8 +6,15 @@
     </div>
     <div class="form-group col-md-6">
         <label>Nama Posyandu</label>
-        <input type="text" name="nama_posyandu" class="form-control"
-            value="{{ old('nama_posyandu', $imunisasiBayi->nama_posyandu ?? '') }}" required>
+        <select name="posyandu_id" class="form-control" required>
+            <option value="">-- Pilih Posyandu --</option>
+            @foreach ($posyanduList as $posyandu)
+                <option value="{{ $posyandu->id }}"
+                    {{ old('posyandu_id', $imunisasiBayi->posyandu_id ?? '') == $posyandu->id ? 'selected' : '' }}>
+                    {{ $posyandu->nama_posyandu }}
+                </option>
+            @endforeach
+        </select>
     </div>
     <div class="form-group col-md-6">
         <label>Nama Orang Tua</label>
@@ -31,21 +38,28 @@
         </select>
     </div>
     <div class="form-group col-md-6">
-        <label>Jenis Imunisasi (Opsional)</label>
-        <input type="text" name="jenis_imunisasi" class="form-control"
-            value="{{ old('jenis_imunisasi', $imunisasiBayi->jenis_imunisasi ?? '') }}">
+        <label>Jenis Imunisasi</label>
+        <select name="jenis_imunisasi_id" class="form-control">
+            <option value="">-- Pilih Imunisasi --</option>
+            @foreach ($jenisImunisasiList as $jenis)
+                <option value="{{ $jenis->id }}"
+                    {{ old('jenis_imunisasi_id', $imunisasiBayi->jenis_imunisasi_id ?? '') == $jenis->id ? 'selected' : '' }}>
+                    {{ $jenis->nama_imunisasi }}
+                </option>
+            @endforeach
+        </select>
     </div>
     <div class="form-group col-12">
         <label>Alamat Lengkap</label>
         <textarea name="alamat_lengkap" class="form-control" required>{{ old('alamat_lengkap', $imunisasiBayi->alamat_lengkap ?? '') }}</textarea>
     </div>
     <div class="form-group col-md-6">
-        <label>NIK Orang Tua (Opsional)</label>
+        <label>NIK Orang Tua</label>
         <input type="text" name="nik_orang_tua" class="form-control"
             value="{{ old('nik_orang_tua', $imunisasiBayi->nik_orang_tua ?? '') }}">
     </div>
     <div class="form-group col-md-6">
-        <label>NIK Bayi (Opsional)</label>
+        <label>NIK Bayi</label>
         <input type="text" name="nik_bayi" class="form-control"
             value="{{ old('nik_bayi', $imunisasiBayi->nik_bayi ?? '') }}">
     </div>

@@ -69,6 +69,14 @@
                     <a class="nav-link" href="{{ route('imunisasi-bayi.index') }}"><i class="fa fa-heartbeat"></i>
                         <span>Imunisasi Bayi</span></a>
                 </li>
+                <li class="{{ Request::is('imunisasi-wus-bumil*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('imunisasi-wus-bumil.index') }}"><i class="fa fa-user-md"></i>
+                        <span>Imunisasi WUS & Bumil</span></a>
+                </li>
+                <li class="{{ Request::is('posyandu*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('posyandu.index') }}"><i class="fa fa-stethoscope"></i>
+                        <span>Posyandu</span></a>
+                </li>
                 <li class="menu-header">Ibu Hamil</li>
                 <li class="{{ Request::is('anc') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('anc.index') }}"><i class="fa fa-stethoscope"></i> <span>Ibu
@@ -79,8 +87,9 @@
                         <span>Penyakit</span></a>
                 </li>
                 <li class="menu-header">Laporan Pustu</li>
-                <li class="{{ Request::is('blank') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-file-text"></i> <span>Rekap Laporan
+                <li class="{{ Request::is('laporan/rekapitulasi*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('laporan.rekap.index') }}"><i class="fa fa-file-text"></i>
+                        <span>Rekap Laporan
                             Pustu</span></a>
                 </li>
             @endif

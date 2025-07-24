@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             ProjectSeeder::class,
             BerandaSeeder::class,
             ServiceSeeder::class,
+            JenisImunisasiSeeder::class,
         ]);
     }
 }
