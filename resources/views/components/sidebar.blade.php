@@ -87,10 +87,10 @@
                         <span>Penyakit</span></a>
                 </li>
                 <li class="menu-header">Laporan Pustu</li>
-                <li class="{{ Request::is('laporan/rekapitulasi*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('laporan.rekap.index') }}"><i class="fa fa-file-text"></i>
-                        <span>Rekap Laporan
-                            Pustu</span></a>
+                <li class="{{ Request::is('laporan/rekap*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('laporan.rekap') }}"><i class="fa fa-file-text"></i>
+                        <span>Rekap Laporan Pustu</span>
+                    </a>
                 </li>
             @endif
             <div class="hide-sidebar-mini mb-4 p-3">
