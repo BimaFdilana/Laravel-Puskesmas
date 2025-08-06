@@ -15,9 +15,10 @@ use App\Http\Controllers\admin\MessageController;
 use App\Http\Controllers\ImunisasiBayiController;
 use App\Http\Controllers\ImunisasiWusBumilController;
 use App\Http\Controllers\LaporanImunisasiController;
-use App\Http\Controllers\LaporanRekapController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\JenisImunisasiController;
 use App\Http\Controllers\PosyanduController;
+
 
 Route::get('/', [BerandaController::class, 'index'])->name('beranda');
 
@@ -69,9 +70,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('imunisasi-wus-bumil', ImunisasiWusBumilController::class);
 
     Route::resource('posyandu', PosyanduController::class);
-
-    Route::get('laporan/rekapitulasi', [LaporanRekapController::class, 'index'])->name('laporan.rekap.index');
-    Route::post('laporan/rekapitulasi/export', [LaporanRekapController::class, 'export'])->name('laporan.rekap.export');
 
     // penyakit
     Route::get('penyakit', [PenyakitController::class, 'index'])->name('penyakit');
