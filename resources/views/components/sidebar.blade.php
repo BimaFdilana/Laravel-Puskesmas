@@ -86,12 +86,12 @@
                     <a class="nav-link" href="{{ route('penyakit') }}"><i class="fa fa-medkit"></i>
                         <span>Penyakit</span></a>
                 </li>
-                <li class="menu-header">Laporan Pustu</li>
+                {{-- <li class="menu-header">Laporan Pustu</li>
                 <li class="{{ Request::is('laporan/rekap*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('laporan.rekap') }}"><i class="fa fa-file-text"></i>
                         <span>Rekap Laporan Pustu</span>
                     </a>
-                </li>
+                </li> --}}
             @endif
             <div class="hide-sidebar-mini mb-4 p-3">
                 <form action="{{ route('logout') }}" method="POST">
