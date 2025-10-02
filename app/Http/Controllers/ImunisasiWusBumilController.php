@@ -19,8 +19,19 @@ class ImunisasiWusBumilController extends Controller
 
     public function create()
     {
+        $posyanduExists = Posyandu::exists();
+
+        if (!$posyanduExists) {
+            return redirect()->route('imunisasi-wus-bumil.index')
+                ->with('show_posyandu_alert', true);
+        }
+
         $posyanduList = Posyandu::orderBy('nama_posyandu')->get();
-        $jenisImunisasiList = JenisImunisasi::orderBy('nama_imunisasi')->get();
+
+        $imunisasiKhususBumil = ['TT1', 'TT2', 'TT3', 'TT4', 'TT5'];
+
+        $jenisImunisasiList = JenisImunisasi::whereIn('nama_imunisasi', $imunisasiKhususBumil)->orderBy('nama_imunisasi')->get();
+
         return view('pages.apps.pustu.imunisasi.bumil.create', compact('jenisImunisasiList', 'posyanduList'));
     }
 
@@ -45,7 +56,12 @@ class ImunisasiWusBumilController extends Controller
     public function edit(ImunisasiWusBumil $imunisasiWusBumil)
     {
         $posyanduList = Posyandu::orderBy('nama_posyandu')->get();
-        $jenisImunisasiList = JenisImunisasi::orderBy('nama_imunisasi')->get();
+
+
+        $imunisasiKhususBumil = ['TT1', 'TT2', 'TT3', 'TT4', 'TT5'];
+
+        $jenisImunisasiList = JenisImunisasi::whereIn('nama_imunisasi', $imunisasiKhususBumil)->orderBy('nama_imunisasi')->get();
+
         return view('pages.apps.pustu.imunisasi.bumil.edit', compact('imunisasiWusBumil', 'jenisImunisasiList', 'posyanduList'));
     }
 
