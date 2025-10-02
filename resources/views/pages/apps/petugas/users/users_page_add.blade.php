@@ -15,6 +15,8 @@
                     <a href="{{ route('usersData') }}" class="btn btn-danger">Tutup</a>
                 </div>
             </div>
+
+            {{-- Alert sukses & error --}}
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <strong>Sukses!</strong> {{ session('success') }}
@@ -28,6 +30,19 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
+
+            {{-- Tampilkan semua error sekaligus --}}
+            @if ($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             <div class="section-body">
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-6">
@@ -40,17 +55,31 @@
                                     @csrf
                                     <div class="form-group">
                                         <label>Nama</label>
-                                        <input type="text" class="form-control" name="name" required>
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                            name="name" value="{{ old('name') }}" required>
+                                        @error('name')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
+
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input type="text" class="form-control" name="email" required>
+                                        <input type="text" class="form-control @error('email') is-invalid @enderror"
+                                            name="email" value="{{ old('email') }}" required>
+                                        @error('email')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group">
                                         <label>Password</label>
-                                        <input type="text" class="form-control" name="password" required>
+                                        <input type="text" class="form-control @error('password') is-invalid @enderror"
+                                            name="password" required>
+                                        @error('password')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
+
                                     <input type="hidden" name="role_id" value="2">
                                     <button type="submit" class="btn btn-primary">Simpan</button>
                                 </form>
@@ -61,24 +90,17 @@
             </div>
         </section>
     </div>
-
 @endsection
 
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Durasi auto-close (ms)
             const alertTimeout = 5000; // 5 detik
-
-            // Cari semua elemen alert dengan kelas `alert-dismissible`
             const alertElements = document.querySelectorAll('.alert-dismissible');
             alertElements.forEach(alert => {
-                // Atur timer untuk menghilangkan alert
                 setTimeout(() => {
-                    alert.classList.remove(
-                        'show'); // Hapus kelas `show` untuk memulai animasi keluar
-                    alert.addEventListener('transitionend', () => alert
-                        .remove()); // Hapus elemen dari DOM
+                    alert.classList.remove('show');
+                    alert.addEventListener('transitionend', () => alert.remove());
                 }, alertTimeout);
             });
         });

@@ -15,12 +15,12 @@ class ProjectSeeder extends Seeder
     {
         DB::table('roles')->insert([
             'name' => 'petugas',
-            'redirect_to' => '/home',
+            'redirect_to' => '/dashboard',
         ]);
 
         DB::table('roles')->insert([
             'name' => 'pustu',
-            'redirect_to' => '/home',
+            'redirect_to' => '/dashboard',
         ]);
 
         DB::table('users')->insert([

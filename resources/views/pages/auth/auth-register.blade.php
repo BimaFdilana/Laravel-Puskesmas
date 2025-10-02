@@ -37,40 +37,61 @@
                             <img class="img-fluid rounded mb-4 mx-auto d-block" loading="lazy"
                                 src="{{ asset('img/logo-login.png') }}" width="245" height="80"
                                 alt="BootstrapBrain Logo">
-                            <form method="POST">
+                            <form method="POST" action="{{ route('register') }}">
                                 @csrf
                                 <div class="mb-3">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" name="name" id="name"
-                                            placeholder="name" required>
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                            name="name" id="name" value="{{ old('name') }}" placeholder="name"
+                                            required>
                                         <label for="name">Name</label>
+                                        @error('name')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
+
                                 <div class="mb-3">
                                     <div class="form-floating">
-                                        <input type="email" class="form-control" name="email" id="email"
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                            name="email" id="email" value="{{ old('email') }}"
                                             placeholder="name@example.com" required>
                                         <label for="email">Email</label>
+                                        @error('email')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
+
                                 <div class="mb-3">
                                     <div class="form-floating">
-                                        <input type="password" class="form-control" name="password" id="password"
-                                            placeholder="Password" required>
+                                        <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                            name="password" id="password" placeholder="Password" required>
                                         <label for="password">Password</label>
+                                        @error('password')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
+
                                 <div class="mb-3">
                                     <div class="form-floating">
-                                        <input type="password" class="form-control" name="password_confirmation"
-                                            id="password_confirmation" placeholder="Confirm Password" required>
+                                        <input type="password"
+                                            class="form-control @error('password_confirmation') is-invalid @enderror"
+                                            name="password_confirmation" id="password_confirmation"
+                                            placeholder="Confirm Password" required>
                                         <label for="password_confirmation">Confirm Password</label>
+                                        @error('password_confirmation')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
+
                                 <div class="d-grid">
                                     <button class="btn btn-success btn-lg" type="submit">Register</button>
                                 </div>
                             </form>
+
                             <div class="text-center mt-4">
                                 <p>Already have an account? <a href="{{ route('login') }}">Sign in</a></p>
                             </div>
