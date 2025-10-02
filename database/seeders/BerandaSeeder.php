@@ -29,7 +29,7 @@ class BerandaSeeder extends Seeder
             'contact_phone' => '+012 345 6789',
             'contact_email' => 'Uptpuskesmasmeskom@gmail.com',
             'contact_address' => 'Jl. Jenderal Sudirman No. 123, Meskom, Bengkalis, Riau',
-            'google_maps_link' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127548.2994936015!2d101.38331584335937!3d0.510440399999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d1e7bcfb5635c9%3A0x1f7483a9a741e4d!2sPekanbaru%2C%20Pekanbaru%20City%2C%20Riau!5e0!3m2!1sen!2sid!4v1721505634069!5m2!1sen!2sid',
+            'google_maps_link' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.3396310348953!2d102.0189699756446!3d1.5599581608630708!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d3dfb82227d1c7%3A0x95766c85ee259fe2!2sUPT%20PUSKESMAS%20MESKOM%20KEC.%20BENGKALIS%20KAB.%20BENGKALIS!5e0!3m2!1sid!2sid!4v1759383048049!5m2!1sid!2sid',
         ]);
     }
 }

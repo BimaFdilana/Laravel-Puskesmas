@@ -15,8 +15,6 @@ use App\Http\Controllers\admin\MessageController;
 use App\Http\Controllers\ImunisasiBayiController;
 use App\Http\Controllers\ImunisasiWusBumilController;
 use App\Http\Controllers\LaporanImunisasiController;
-use App\Http\Controllers\LaporanController;
-use App\Http\Controllers\JenisImunisasiController;
 use App\Http\Controllers\PosyanduController;
 
 
@@ -68,6 +66,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('imunisasi-wus-bumil/export', [ImunisasiWusBumilController::class, 'export'])->name('imunisasi-wus-bumil.export');
     Route::resource('imunisasi-wus-bumil', ImunisasiWusBumilController::class);
+
+    Route::get('/laporan/imunisasi', [LaporanImunisasiController::class, 'index'])->name('laporan.imunisasi.index');
+    Route::get('/laporan/imunisasi/export', [LaporanImunisasiController::class, 'exportImunisasi'])->name('laporan.imunisasi.export');
 
     Route::resource('posyandu', PosyanduController::class);
 

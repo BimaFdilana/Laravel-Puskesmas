@@ -13,21 +13,30 @@ class ImunisasiBayiController extends Controller
 {
     public function index()
     {
-        // Memuat relasi untuk ditampilkan di tabel index
         $dataImunisasi = ImunisasiBayi::with('jenisImunisasi')->latest()->paginate(10);
         return view('pages.apps.pustu.imunisasi.bayi.index', compact('dataImunisasi'));
     }
 
     public function create()
     {
+        $posyanduExists = Posyandu::exists();
+
+        if (!$posyanduExists) {
+            return redirect()->route('imunisasi-bayi.index')
+                ->with('show_posyandu_alert', true);
+        }
+
         $posyanduList = Posyandu::orderBy('nama_posyandu')->get();
-        $jenisImunisasiList = JenisImunisasi::orderBy('nama_imunisasi')->get();
+
+        $imunisasiKecuali = ['TT1', 'TT2', 'TT3', 'TT4', 'TT5'];
+
+        $jenisImunisasiList = JenisImunisasi::whereNotIn('nama_imunisasi', $imunisasiKecuali)->orderBy('nama_imunisasi')->get();
+
         return view('pages.apps.pustu.imunisasi.bayi.create', compact('jenisImunisasiList', 'posyanduList'));
     }
 
     public function store(Request $request)
     {
-        // PERBAIKAN: Validasi diubah ke jenis_imunisasi_id
         $request->validate([
             'nama_bayi' => 'required|string|max:255',
             'posyandu_id' => 'required|exists:posyandus,id',
@@ -48,13 +57,16 @@ class ImunisasiBayiController extends Controller
     public function edit(ImunisasiBayi $imunisasiBayi)
     {
         $posyanduList = Posyandu::orderBy('nama_posyandu')->get();
-        $jenisImunisasiList = JenisImunisasi::orderBy('nama_imunisasi')->get();
+
+        $imunisasiKecuali = ['TT1', 'TT2', 'TT3', 'TT4', 'TT5'];
+
+        $jenisImunisasiList = JenisImunisasi::whereNotIn('nama_imunisasi', $imunisasiKecuali)->orderBy('nama_imunisasi')->get();
+
         return view('pages.apps.pustu.imunisasi.bayi.edit', compact('imunisasiBayi', 'jenisImunisasiList', 'posyanduList'));
     }
 
     public function update(Request $request, ImunisasiBayi $imunisasiBayi)
     {
-        // PERBAIKAN: Validasi diubah ke jenis_imunisasi_id
         $request->validate([
             'nama_bayi' => 'required|string|max:255',
             'posyandu_id' => 'required|exists:posyandus,id',
@@ -81,7 +93,6 @@ class ImunisasiBayiController extends Controller
 
     public function export()
     {
-        // PERBAIKAN: Memuat relasi sebelum diekspor
         $data = ImunisasiBayi::with('jenisImunisasi')->get()->groupBy('nama_posyandu');
         return Excel::download(new ImunisasiBayiExport($data), 'data_imunisasi_bayi_' . date('Y-m-d') . '.xlsx');
     }

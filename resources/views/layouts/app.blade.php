@@ -61,11 +61,9 @@
     <script src="{{ asset('library/moment/min/moment.min.js') }}"></script>
     <script src="{{ asset('js/stisla.js') }}"></script>
 
-    @stack('scripts')
-
-    <!-- Template JS File -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {{-- <script src="{{ asset('js/delete-button.js') }}"></script> --}} {{-- DIHAPUS/DIKOMENTARI --}}
+
+    @stack('scripts')
     <script src="{{ asset('js/scripts.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
 </body>
