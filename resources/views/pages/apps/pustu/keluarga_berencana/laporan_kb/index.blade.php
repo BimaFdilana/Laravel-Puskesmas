@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Imunisasi')
+@section('title', 'Laporan KB')
 
 @section('main')
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Laporan Imunisasi</h1>
+                <h1>Laporan Keluarga Berencana</h1>
             </div>
             <div class="section-body">
                 <div class="card">
-                    <form action="{{ route('laporan.imunisasi.export') }}" method="GET">
+                    <form action="{{ route('laporan.kb.export') }}" method="GET">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-5">
@@ -26,7 +26,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                {{-- Dropdown untuk Tahun --}}
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label for="tahun">Pilih Tahun</label>
@@ -40,7 +39,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                {{-- Tombol untuk men-download laporan --}}
                                 <div class="col-md-2 d-flex align-items-end">
                                     <div class="form-group w-100">
                                         <button type="submit" class="btn btn-success w-100">

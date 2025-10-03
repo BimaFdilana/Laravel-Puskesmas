@@ -19,8 +19,7 @@
                             @include('pages.apps.pustu.imunisasi.bayi._form', ['imunisasiBayi' => $imunisasiBayi])
                         </div>
                         <div class="card-footer text-right">
-                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                            <a href="{{ route('imunisasi-bayi.index') }}" class="btn btn-secondary">Batal</a>
+                            <button type="submit" class="btn btn-danger">Simpan Perubahan</button>
                         </div>
                     </form>
                 </div>

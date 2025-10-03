@@ -1,16 +1,15 @@
 @extends('layouts.app')
-
-@section('title', 'Laporan Imunisasi')
+@section('title', 'Laporan Surveilans Penyakit')
 
 @section('main')
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Laporan Imunisasi</h1>
+                <h1>Laporan Surveilans Penyakit</h1>
             </div>
             <div class="section-body">
                 <div class="card">
-                    <form action="{{ route('laporan.imunisasi.export') }}" method="GET">
+                    <form action="{{ route('laporan.surveilans.export') }}" method="GET">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-5">
@@ -26,7 +25,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                {{-- Dropdown untuk Tahun --}}
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label for="tahun">Pilih Tahun</label>
@@ -34,13 +32,11 @@
                                             @for ($i = now()->year; $i >= now()->year - 5; $i--)
                                                 <option value="{{ $i }}"
                                                     {{ request('tahun', now()->year) == $i ? 'selected' : '' }}>
-                                                    {{ $i }}
-                                                </option>
+                                                    {{ $i }}</option>
                                             @endfor
                                         </select>
                                     </div>
                                 </div>
-                                {{-- Tombol untuk men-download laporan --}}
                                 <div class="col-md-2 d-flex align-items-end">
                                     <div class="form-group w-100">
                                         <button type="submit" class="btn btn-success w-100">

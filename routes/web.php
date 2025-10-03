@@ -5,7 +5,6 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\Blank;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KeluargaBerencanaController;
-use App\Http\Controllers\PenyakitController;
 use App\Http\Controllers\AncRecordController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\admin\ServiceController;
@@ -16,6 +15,10 @@ use App\Http\Controllers\ImunisasiBayiController;
 use App\Http\Controllers\ImunisasiWusBumilController;
 use App\Http\Controllers\LaporanImunisasiController;
 use App\Http\Controllers\PosyanduController;
+use App\Http\Controllers\PesertaKbBaruController;
+use App\Http\Controllers\LaporanKbController;
+use App\Http\Controllers\SurveilansPenyakitController;
+use App\Http\Controllers\LaporanSurveilansController;
 
 
 Route::get('/', [BerandaController::class, 'index'])->name('beranda');
@@ -57,8 +60,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/registerPustu', [AuthController::class, 'registerPustu'])->name('registerPustu');
 
     // keluarga berencana
-    Route::get('keluarga-berencana', [KeluargaBerencanaController::class, 'index'])->name('keluargaBerencana');
-    Route::delete('keluarga-berencana/{id}', [KeluargaBerencanaController::class, 'destroy'])->name('deleteKeluargaBerencana');
+    Route::resource('peserta-kb', PesertaKbBaruController::class);
+    Route::get('/laporan/kb', [LaporanKbController::class, 'index'])->name('laporan.kb.index');
+    Route::get('/laporan/kb/export', [LaporanKbController::class, 'export'])->name('laporan.kb.export');
 
     // imunusasi
     Route::get('imunisasi-bayi/export', [ImunisasiBayiController::class, 'export'])->name('imunisasi-bayi.export');
@@ -73,12 +77,15 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('posyandu', PosyanduController::class);
 
     // penyakit
-    Route::get('penyakit', [PenyakitController::class, 'index'])->name('penyakit');
-    Route::delete('penyakit/{id}', [PenyakitController::class, 'destroy'])->name('deletePenyakit');
+    Route::resource('surveilans-penyakit', SurveilansPenyakitController::class);
+    Route::get('/laporan/surveilans', [LaporanSurveilansController::class, 'index'])->name('laporan.surveilans.index');
+    Route::get('/laporan/surveilans/export', [LaporanSurveilansController::class, 'export'])->name('laporan.surveilans.export');
+
 
     // ANC
     Route::resource('anc', AncRecordController::class)->names('anc');
     Route::get('anc/{ancRecord}/export-word', [AncRecordController::class, 'exportWord'])->name('anc.export-word');
+    Route::get('/laporan/anc', [AncRecordController::class, 'laporanIndex'])->name('laporan.anc.index');
 
     Route::get('blank', [Blank::class, 'index'])->name('blank');
 });

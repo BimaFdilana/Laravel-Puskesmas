@@ -14,6 +14,12 @@ class AncRecordController extends Controller
         return view('pages.apps.pustu.ibu_hamil.index', compact('records'));
     }
 
+    public function laporanIndex()
+    {
+        $records = AncRecord::latest()->paginate(10);
+        return view('pages.apps.pustu.ibu_hamil.laporan_ibu_hamil.index', compact('records'));
+    }
+
     public function create()
     {
         $ancItems = AncRecord::getAncItems();

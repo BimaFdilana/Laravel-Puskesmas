@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('keluarga_berencana', function (Blueprint $table) {
+        Schema::create('surveilans_penyakit', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('umur');
-            $table->string('type');
+            $table->foreignId('penyakit_id')->constrained('penyakit')->onDelete('cascade');
+            $table->string('nama_pasien');
+            $table->date('tanggal_lahir');
+            $table->enum('jenis_kelamin', ['L', 'P']);
+            $table->date('tanggal_kunjungan');
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('keluarga_berencana');
+        Schema::dropIfExists('surveilans_penyakits');
     }
 };

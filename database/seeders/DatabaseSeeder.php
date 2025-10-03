@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             BerandaSeeder::class,
             ServiceSeeder::class,
             JenisImunisasiSeeder::class,
+            PenyakitSeeder::class,
         ]);
     }
 }

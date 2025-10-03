@@ -23,9 +23,25 @@
                             Pustu</span></a>
                 </li>
                 <li class="menu-header">Laporan Pustu</li>
-                <li class="{{ Request::is('blank') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('blank') }}"><i class="fa fa-file-text"></i> <span>Data Laporan
-                            Pustu</span></a>
+                <li class="{{ Request::is('laporan/anc*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('laporan.anc.index') }}"><i class="fas fa-female"></i>
+                        <span>Laporan Ibu Hamil</span>
+                    </a>
+                </li>
+                <li class="{{ Request::is('laporan/imunisasi*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('laporan.imunisasi.index') }}"><i class="fa fa-print"></i>
+                        <span>Laporan Imunisasi</span>
+                    </a>
+                </li>
+                <li class="{{ Request::is('laporan/kb*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('laporan.kb.index') }}"><i class="fas fa-pills"></i>
+                        <span>Laporan KB</span>
+                    </a>
+                </li>
+                <li class="{{ Request::is('laporan/surveilans*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('laporan.surveilans.index') }}"><i class="fas fa-chart-bar"></i>
+                        <span>Laporan Surveilans</span>
+                    </a>
                 </li>
                 <li class="menu-header">Website Setting</li>
                 <li class="{{ Request::is('beranda*') ? 'active' : '' }}">
@@ -58,11 +74,16 @@
                     <a class="nav-link" href="{{ route('dashboard') }}"><i class="fa fa-home"></i>
                         <span>Dashboard</span></a>
                 </li>
+                <li class="{{ Request::is('posyandu*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('posyandu.index') }}"><i class="fa fa-hospital"></i>
+                        <span>Posyandu</span></a>
+                </li>
                 <li class="menu-header">Data Pustu</li>
-                <li class="{{ Request::is('keluargaBerencana') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('keluargaBerencana') }}"><i class="fa fa-users"></i>
-                        <span>Keluarga
-                            Berencana</span></a>
+                <li class="{{ Request::is('peserta-kb*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('peserta-kb.index') }}"><i
+                            class="fa fa-american-sign-language-interpreting"></i>
+                        <span>Keluarga Berencana</span>
+                    </a>
                 </li>
                 <li class="menu-header">Imunisasi</li>
                 <li class="{{ Request::is('imunisasi-bayi*') ? 'active' : '' }}">
@@ -73,23 +94,37 @@
                     <a class="nav-link" href="{{ route('imunisasi-wus-bumil.index') }}"><i class="fa fa-user-md"></i>
                         <span>Imunisasi WUS & Bumil</span></a>
                 </li>
-                <li class="{{ Request::is('posyandu*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('posyandu.index') }}"><i class="fa fa-stethoscope"></i>
-                        <span>Posyandu</span></a>
-                </li>
                 <li class="menu-header">Ibu Hamil</li>
                 <li class="{{ Request::is('anc') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('anc.index') }}"><i class="fa fa-stethoscope"></i> <span>Ibu
+                    <a class="nav-link" href="{{ route('anc.index') }}"><i class="fa fa-wheelchair"></i> <span>Ibu
                             Hamil</span></a>
                 </li>
-                <li class="{{ Request::is('penyakit') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('penyakit') }}"><i class="fa fa-medkit"></i>
-                        <span>Penyakit</span></a>
+                <li class="menu-header">Penyakit</li>
+                <li class="{{ Request::is('surveilans-penyakit*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('surveilans-penyakit.index') }}"><i class="fa fa-bug"></i>
+                        <span>Surveilans Penyakit</span>
+                    </a>
                 </li>
                 <li class="menu-header">Laporan Pustu</li>
+                <li class="{{ Request::is('laporan/anc*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('laporan.anc.index') }}"><i class="fas fa-female"></i>
+                        <span>Laporan Ibu Hamil</span>
+                    </a>
+                </li>
                 <li class="{{ Request::is('laporan/imunisasi*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('laporan.imunisasi.index') }}"><i class="fa fa-print"></i>
                         <span>Laporan Imunisasi</span>
+                    </a>
+                </li>
+                <li class="{{ Request::is('laporan/kb*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('laporan.kb.index') }}"><i class="fas fa-pills"></i>
+                        <span>Laporan KB</span>
+                    </a>
+                </li>
+                <li class="{{ Request::is('laporan/surveilans*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('laporan.surveilans.index') }}"><i
+                            class="fas fa-chart-bar"></i>
+                        <span>Laporan Surveilans</span>
                     </a>
                 </li>
             @endif

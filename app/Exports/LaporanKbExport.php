@@ -7,51 +7,55 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
-use Carbon\Carbon;
 
-class LaporanImunisasiExport implements FromView, ShouldAutoSize, WithEvents
+class LaporanKbExport implements FromView, ShouldAutoSize, WithEvents
 {
     protected $data;
-    protected $bulan;
+    protected $namaBulan;
     protected $tahun;
 
-    public function __construct(array $data, $bulan, $tahun)
+    public function __construct(array $data, $namaBulan, $tahun)
     {
         $this->data = $data;
-        $this->bulan = $bulan;
+        $this->namaBulan = $namaBulan;
         $this->tahun = $tahun;
     }
 
     public function view(): View
     {
-        return view('pages.apps.pustu.imunisasi.exports.laporan_imunisasi', [
+        return view('pages.apps.pustu.keluarga_berencana.exports.laporan_kb', [
             'reportData' => $this->data,
-            'namaBulan' => Carbon::create()->month($this->bulan)->translatedFormat('F'),
+            'namaBulan' => $this->namaBulan,
             'tahun' => $this->tahun
         ]);
     }
+
+    // app/Exports/LaporanKbExport.php
 
     public function registerEvents(): array
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
-                // Header laporan berada di baris 5, 6, 7. Data mulai dari baris 8.
-                // Jadi, baris terakhir adalah 7 + jumlah baris data.
-                $lastRow = 9 + count($this->data);
+                $lastColumn = 'W';
 
-                // PERBAIKAN: Lebarkan range sel dari AC ke AF
-                $cellRange = 'A5:AF' . $lastRow;
+                // PERBAIKAN:
+                // Header tabel utama (No, Nama Desa, dst.) dimulai dari baris ke-7.
+                $startRow = 7;
+                // Header tabel utama memiliki 3 baris (baris 7, 8, 9). Data mulai dari baris 10.
+                $lastRow = 10 + count($this->data);
+
+                // Terapkan border hanya pada tabel utama
+                $cellRange = 'A' . $startRow . ':' . $lastColumn . $lastRow;
                 $event->sheet->getDelegate()->getStyle($cellRange)->getBorders()->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
 
-                // Style untuk header utama (baris 5, 6, dan 7)
-                // PERBAIKAN: Lebarkan juga range header dari AC ke AF
-                $headerRange = 'A5:AF7';
+                // Atur style (bold, center) hanya untuk header tabel utama
+                $headerRange = 'A' . $startRow . ':' . $lastColumn . '9';
                 $event->sheet->getDelegate()->getStyle($headerRange)->getFont()->setBold(true);
                 $event->sheet->getDelegate()->getStyle($headerRange)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
                 $event->sheet->getDelegate()->getStyle($headerRange)->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
 
-                $dataStartRow = 8; // Data dimulai dari baris ke-8
-                $dataRange = 'C' . $dataStartRow . ':AF' . $lastRow;
+                $dataStartRow = 10; // Data dimulai dari baris ke-10
+                $dataRange = 'C' . $dataStartRow . ':' . $lastColumn . $lastRow;
                 $event->sheet->getDelegate()->getStyle($dataRange)
                     ->getNumberFormat()
                     ->setFormatCode('#,##0;-#,##0;;@');

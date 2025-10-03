@@ -18,8 +18,7 @@
                             @include('pages.apps.pustu.imunisasi.bumil._form')
                         </div>
                         <div class="card-footer text-right">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                            <a href="{{ route('imunisasi-wus-bumil.index') }}" class="btn btn-secondary">Batal</a>
+                            <button type="submit" class="btn btn-danger">Simpan</button>
                         </div>
                     </form>
                 </div>
