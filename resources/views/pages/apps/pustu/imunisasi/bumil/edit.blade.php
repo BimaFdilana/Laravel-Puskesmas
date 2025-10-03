@@ -21,8 +21,7 @@
                             ])
                         </div>
                         <div class="card-footer text-right">
-                            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                            <a href="{{ route('imunisasi-wus-bumil.index') }}" class="btn btn-secondary">Batal</a>
+                            <button type="submit" class="btn btn-danger">Simpan Perubahan</button>
                         </div>
                     </form>
                 </div>

@@ -28,7 +28,7 @@
                     </button>
                 </div>
             @endif
-            <a href="{{ route('anc.create') }}" class="btn btn-success mb-3">Tambah Data ANC</a>
+            <a href="{{ route('anc.create') }}" class="btn btn-success mb-3"><i class="fas fa-plus"></i> Tambah Data ANC</a>
             <div class="section-body">
                 <div class="card">
                     <div class="card-body p-0">
@@ -58,15 +58,11 @@
                                                 <button type="button" class="btn btn-info btn-sm view-button"
                                                     data-id="{{ $record->id }}" data-toggle="modal"
                                                     data-target="#ancDetailModal">
-                                                    <i class="fas fa-eye"></i>
+                                                    Detail
                                                 </button>
                                                 <a href="{{ route('anc.edit', $record) }}" class="btn btn-warning btn-sm"
                                                     title="Edit">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="{{ route('anc.export-word', $record) }}"
-                                                    class="btn btn-success btn-sm" title="Export Word">
-                                                    <i class="fas fa-file-word"></i>
+                                                    Edit
                                                 </a>
                                                 <button type="button" class="btn btn-danger btn-sm delete-button"
                                                     data-id="{{ $record->id }}" data-name="{{ $record->nama_pasien }}">
@@ -77,12 +73,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="8" class="text-center">
-                                            <div class="py-4">
-                                                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
-                                                <h5 class="text-muted">Belum ada data Ibu Hamil (ANC)</h5>
-                                            </div>
-                                        </td>
+                                        <td colspan="8" class="text-center">Belum ada data.</td>
                                     </tr>
                                 @endforelse
                             </table>
@@ -147,14 +138,13 @@
                                     </tr>
                                 </thead>
                                 <tbody id="modal-anc-table-body">
-                                    {{-- Isi tabel akan di-generate oleh JavaScript --}}
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>
@@ -249,7 +239,8 @@
                     } catch (error) {
                         console.error('Error saat mengambil data detail:', error);
                         alert(
-                            'Tidak dapat memuat detail data. Cek console untuk info lebih lanjut.');
+                            'Tidak dapat memuat detail data. Cek console untuk info lebih lanjut.'
+                        );
                         modalLoading.style.display = 'none';
                     }
                 });

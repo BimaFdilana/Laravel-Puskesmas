@@ -8,15 +8,15 @@
             <div class="section-header">
                 <h1>Data Imunisasi Bayi</h1>
             </div>
+            <a href="{{ route('imunisasi-bayi.create') }}" class="btn btn-success mb-3"><i class="fas fa-plus"></i> Tambah
+                Data Bayi</a>
             <div class="section-body">
                 <div class="card">
                     <div class="card-header">
                         <h4></h4>
                         <div class="card-header-action">
-                            <a href="{{ route('imunisasi-bayi.export') }}" class="btn btn-success"><i
+                            <a href="{{ route('imunisasi-bayi.export') }}" class="btn btn-primary"><i
                                     class="fas fa-file-excel"></i> Ekspor ke Excel</a>
-                            <a href="{{ route('imunisasi-bayi.create') }}" class="btn btn-primary"><i
-                                    class="fas fa-plus"></i> Tambah Data</a>
                         </div>
                     </div>
                     <div class="card-body">

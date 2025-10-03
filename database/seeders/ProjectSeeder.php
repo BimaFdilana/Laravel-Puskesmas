@@ -39,19 +39,5 @@ class ProjectSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-        DB::table('keluarga_berencana')->insert([
-            'nama' => 'Project 1',
-            'umur' => 'Project 1',
-            'type' => 'Project 1',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-        DB::table('keluarga_berencana')->insert([
-            'nama' => 'Project 2',
-            'umur' => 'Project 2',
-            'type' => 'Project 2',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
     }
 }

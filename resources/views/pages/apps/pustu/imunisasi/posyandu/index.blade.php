@@ -6,15 +6,12 @@
             <div class="section-header">
                 <h1>Master Data Posyandu</h1>
             </div>
+            <div class="card-header-action">
+                <a href="{{ route('posyandu.create') }}" class="btn btn-success mb-3"><i class="fas fa-plus"></i> Tambah
+                    Posyandu</a>
+            </div>
             <div class="section-body">
                 <div class="card">
-                    <div class="card-header">
-                        <h4>Daftar Posyandu</h4>
-                        <div class="card-header-action">
-                            <a href="{{ route('posyandu.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah
-                                Baru</a>
-                        </div>
-                    </div>
                     <div class="card-body">
                         @if (session('success'))
                             <div class="alert alert-success">{{ session('success') }}</div>
