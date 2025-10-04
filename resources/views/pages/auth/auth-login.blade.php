@@ -17,10 +17,8 @@
                 <div class="col-12 col-md-6 col-xl-7">
                     <div class="d-flex justify-content-center">
                         <div class="col-12 col-xl-9">
-                            <h2 class="h1 mb-4 text-white">Hello Welcome</h2>
-                            <p class="lead mb-5 text-white">We write words, take photos, make videos, and interact with
-                                artificial
-                                intelligence.</p>
+                            <h2 class="h1 mb-4 text-white">Halo Selamat Datang</h2>
+                            <p class="lead mb-5 text-white">Masuk ke akun Anda untuk memulai aplikasi web ini</p>
                             <div class="text-end text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor"
                                     class="bi bi-grip-horizontal" viewBox="0 0 16 16">
@@ -50,15 +48,15 @@
                                     <div class="form-floating">
                                         <input type="password" class="form-control" name="password" id="password"
                                             placeholder="Password" required>
-                                        <label for="password">Password</label>
+                                        <label for="password">Kata Sandi</label>
                                     </div>
                                 </div>
                                 <div class="d-grid">
-                                    <button class="btn btn-success btn-lg" type="submit">Login</button>
+                                    <button class="btn btn-success btn-lg" type="submit">Masuk</button>
                                 </div>
                             </form>
                             <div class="text-center mt-4">
-                                <p>Don't have an account? <a href="{{ route('register') }}">Sign up</a></p>
+                                <p>Apakah belum memiliki akun? <a href="{{ route('register') }}">Daftar Akun</a></p>
                             </div>
                         </div>
                     </div>

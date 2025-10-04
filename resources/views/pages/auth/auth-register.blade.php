@@ -17,10 +17,8 @@
                 <div class="col-12 col-md-6 col-xl-7">
                     <div class="d-flex justify-content-center">
                         <div class="col-12 col-xl-9">
-                            <h2 class="h1 mb-4 text-white">Hello Welcome</h2>
-                            <p class="lead mb-5 text-white">We write words, take photos, make videos, and interact with
-                                artificial
-                                intelligence.</p>
+                            <h2 class="h1 mb-4 text-white">Halo Selamat Datang</h2>
+                            <p class="lead mb-5 text-white">Buat akun baru untuk memulai aplikasi web ini</p>
                             <div class="text-end text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor"
                                     class="bi bi-grip-horizontal" viewBox="0 0 16 16">
@@ -44,7 +42,7 @@
                                         <input type="text" class="form-control @error('name') is-invalid @enderror"
                                             name="name" id="name" value="{{ old('name') }}" placeholder="name"
                                             required>
-                                        <label for="name">Name</label>
+                                        <label for="name">Nama Lengkap</label>
                                         @error('name')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -67,7 +65,7 @@
                                     <div class="form-floating">
                                         <input type="password" class="form-control @error('password') is-invalid @enderror"
                                             name="password" id="password" placeholder="Password" required>
-                                        <label for="password">Password</label>
+                                        <label for="password">Kata Sandi</label>
                                         @error('password')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -80,7 +78,7 @@
                                             class="form-control @error('password_confirmation') is-invalid @enderror"
                                             name="password_confirmation" id="password_confirmation"
                                             placeholder="Confirm Password" required>
-                                        <label for="password_confirmation">Confirm Password</label>
+                                        <label for="password_confirmation">Konfirmasi Kata Sandi</label>
                                         @error('password_confirmation')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -88,12 +86,12 @@
                                 </div>
 
                                 <div class="d-grid">
-                                    <button class="btn btn-success btn-lg" type="submit">Register</button>
+                                    <button class="btn btn-success btn-lg" type="submit">Daftar Akun</button>
                                 </div>
                             </form>
 
                             <div class="text-center mt-4">
-                                <p>Already have an account? <a href="{{ route('login') }}">Sign in</a></p>
+                                <p>Apakah sudah memiliki akun? <a href="{{ route('login') }}">Masuk</a></p>
                             </div>
                         </div>
                     </div>

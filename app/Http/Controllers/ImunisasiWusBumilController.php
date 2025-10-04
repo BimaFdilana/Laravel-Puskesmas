@@ -13,7 +13,14 @@ class ImunisasiWusBumilController extends Controller
 {
     public function index()
     {
-        $dataImunisasi = ImunisasiWusBumil::latest()->paginate(10);
+        $query = ImunisasiWusBumil::with(['posyandu', 'jenisImunisasi'])->latest();
+
+        if (auth()->user()->role_id == 2) {
+            $query->where('user_id', auth()->id());
+        }
+
+        $dataImunisasi = $query->paginate(10);
+
         return view('pages.apps.pustu.imunisasi.bumil.index', compact('dataImunisasi'));
     }
 
@@ -26,7 +33,12 @@ class ImunisasiWusBumilController extends Controller
                 ->with('show_posyandu_alert', true);
         }
 
-        $posyanduList = Posyandu::orderBy('nama_posyandu')->get();
+        $query = Posyandu::query();
+        if (auth()->user()->role_id == 2) {
+            $query->where('user_id', auth()->id());
+        }
+
+        $posyanduList = $query->orderBy('nama_posyandu')->get();
 
         $imunisasiKhususBumil = ['TT1', 'TT2', 'TT3', 'TT4', 'TT5'];
 
@@ -37,7 +49,7 @@ class ImunisasiWusBumilController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'posyandu_id' => 'required|exists:posyandus,id',
             'nama_wus_bumil' => 'required|string|max:255',
             'nama_suami' => 'required|string|max:255',
@@ -48,14 +60,20 @@ class ImunisasiWusBumilController extends Controller
             'nik' => 'nullable|string|max:255',
         ]);
 
-        ImunisasiWusBumil::create($request->all());
+        $data['user_id'] = auth()->user()->id;
+        ImunisasiWusBumil::create($data);
 
         return redirect()->route('imunisasi-wus-bumil.index')->with('success', 'Data Imunisasi WUS/Bumil berhasil ditambahkan.');
     }
 
     public function edit(ImunisasiWusBumil $imunisasiWusBumil)
     {
-        $posyanduList = Posyandu::orderBy('nama_posyandu')->get();
+        $query = Posyandu::query();
+        if (auth()->user()->role_id == 2) {
+            $query->where('user_id', auth()->id());
+        }
+
+        $posyanduList = $query->orderBy('nama_posyandu')->get();
 
 
         $imunisasiKhususBumil = ['TT1', 'TT2', 'TT3', 'TT4', 'TT5'];

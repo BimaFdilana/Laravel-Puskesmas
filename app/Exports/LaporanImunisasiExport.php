@@ -37,7 +37,7 @@ class LaporanImunisasiExport implements FromView, ShouldAutoSize, WithEvents
             AfterSheet::class => function (AfterSheet $event) {
                 // Header laporan berada di baris 5, 6, 7. Data mulai dari baris 8.
                 // Jadi, baris terakhir adalah 7 + jumlah baris data.
-                $lastRow = 9 + count($this->data);
+                $lastRow = 13 + count($this->data);
 
                 // PERBAIKAN: Lebarkan range sel dari AC ke AF
                 $cellRange = 'A5:AF' . $lastRow;

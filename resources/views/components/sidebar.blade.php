@@ -23,26 +23,12 @@
                             Pustu</span></a>
                 </li>
                 <li class="menu-header">Laporan Pustu</li>
-                <li class="{{ Request::is('laporan/anc*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('laporan.anc.index') }}"><i class="fas fa-female"></i>
-                        <span>Laporan Ibu Hamil</span>
+                <li class="{{ Request::is('laporan/pustu*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('laporan.pustu.index') }}"><i class="fas fa-file-alt"></i>
+                        <span>Laporan per Pustu</span>
                     </a>
                 </li>
-                <li class="{{ Request::is('laporan/imunisasi*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('laporan.imunisasi.index') }}"><i class="fa fa-print"></i>
-                        <span>Laporan Imunisasi</span>
-                    </a>
-                </li>
-                <li class="{{ Request::is('laporan/kb*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('laporan.kb.index') }}"><i class="fas fa-pills"></i>
-                        <span>Laporan KB</span>
-                    </a>
-                </li>
-                <li class="{{ Request::is('laporan/surveilans*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('laporan.surveilans.index') }}"><i class="fas fa-chart-bar"></i>
-                        <span>Laporan Surveilans</span>
-                    </a>
-                </li>
+
                 <li class="menu-header">Website Setting</li>
                 <li class="{{ Request::is('beranda*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.beranda.edit') }}"><i class="fa fa-globe"></i>
@@ -122,8 +108,7 @@
                     </a>
                 </li>
                 <li class="{{ Request::is('laporan/surveilans*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('laporan.surveilans.index') }}"><i
-                            class="fas fa-chart-bar"></i>
+                    <a class="nav-link" href="{{ route('laporan.surveilans.index') }}"><i class="fas fa-chart-bar"></i>
                         <span>Laporan Surveilans</span>
                     </a>
                 </li>
@@ -132,7 +117,7 @@
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit" class="btn btn-danger btn-lg btn-block btn-icon-split">
-                        <i class="fas fa-sign-out-alt"></i> Logout
+                        <i class="fas fa-sign-out-alt"></i> Keluar
                     </button>
                 </form>
             </div>

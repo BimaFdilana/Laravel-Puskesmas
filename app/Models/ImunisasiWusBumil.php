@@ -12,7 +12,7 @@ class ImunisasiWusBumil extends Model
     protected $table = 'imunisasi_wus_bumil';
     protected $guarded = ['id'];
 
-    protected $fillable = ['posyandu_id', 'nama_wus_bumil', 'nama_suami', 'umur', 'hamil_ke', 'jenis_imunisasi_id', 'alamat_lengkap', 'nik'];
+    protected $fillable = ['posyandu_id', 'nama_wus_bumil', 'nama_suami', 'umur', 'hamil_ke', 'jenis_imunisasi_id', 'alamat_lengkap', 'nik', 'user_id'];
 
     public function jenisImunisasi()
     {
@@ -22,5 +22,10 @@ class ImunisasiWusBumil extends Model
     public function posyandu()
     {
         return $this->belongsTo(Posyandu::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

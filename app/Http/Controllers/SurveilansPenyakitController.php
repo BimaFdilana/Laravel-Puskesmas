@@ -10,7 +10,14 @@ class SurveilansPenyakitController extends Controller
 {
     public function index()
     {
-        $records = SurveilansPenyakit::with('penyakit')->latest()->paginate(10);
+        $query = SurveilansPenyakit::with('penyakit')->latest();
+
+        if (auth()->user()->role_id == 2) {
+            $query->where('user_id', auth()->id());
+        }
+
+        $records = $query->paginate(10);
+
         return view('pages.apps.pustu.penyakit.index', compact('records'));
     }
 
@@ -22,7 +29,7 @@ class SurveilansPenyakitController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'penyakit_id' => 'required|exists:penyakit,id',
             'nama_pasien' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date|before_or_equal:today',
@@ -30,7 +37,8 @@ class SurveilansPenyakitController extends Controller
             'tanggal_kunjungan' => 'required|date|before_or_equal:today',
         ]);
 
-        SurveilansPenyakit::create($request->all());
+        $data['user_id'] = auth()->user()->id;
+        SurveilansPenyakit::create($data);
 
         return redirect()->route('surveilans-penyakit.index')->with('success', 'Data Surveilans berhasil ditambahkan.');
     }

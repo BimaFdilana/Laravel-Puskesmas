@@ -4,7 +4,7 @@
 <body>
     <table>
         <tr>
-            <td colspan="23" style="text-align: center; font-weight: bold; font-size: 14px;">LAPORAN KB PESERTA BARU
+            <td colspan="23" style="text-align: center; font-weight: bold; font-size: 14px;">LAPORAN KELUARGA BERENCANA
             </td>
         </tr>
         <tr>
@@ -26,7 +26,7 @@
         <thead>
             <tr>
                 <th rowspan="3" style="vertical-align: middle;">NO</th>
-                <th rowspan="3" style="vertical-align: middle;">NAMA DESA</th>
+                <th rowspan="3" style="vertical-align: middle;">NAMA POSYANDU</th>
                 <th colspan="21" style="text-align: center;">JENIS KONTRASEPSI</th>
             </tr>
             <tr>
