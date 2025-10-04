@@ -17,8 +17,6 @@
                     <h1>Dashboard Puskesmas Pembantu</h1>
                 @endif
             </div>
-
-            {{-- Baris Kartu Statistik (Tidak berubah) --}}
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                     <div class="card card-statistic-1">
@@ -66,9 +64,7 @@
                 </div>
             </div>
 
-            {{-- Baris Grafik (Diperbarui) --}}
             <div class="row">
-                {{-- PERUBAHAN DI SINI: Grafik Statistik Total --}}
                 <div class="col-lg-8 col-md-12 col-12 col-sm-12">
                     <div class="card">
                         <div class="card-header">
@@ -79,7 +75,6 @@
                         </div>
                     </div>
                 </div>
-                {{-- Grafik Penyakit Teratas (Tidak berubah) --}}
                 <div class="col-lg-4 col-md-12 col-12 col-sm-12">
                     <div class="card">
                         <div class="card-header">
@@ -92,7 +87,6 @@
                 </div>
             </div>
 
-            {{-- Baris Tabel Aktivitas Terbaru (Tidak berubah) --}}
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
@@ -126,27 +120,17 @@
     <script src="{{ asset('library/chart.js/dist/Chart.min.js') }}"></script>
 
     <script>
-        // Data dari controller
         const penyakitLabels = @json($penyakitLabels);
         const penyakitData = @json($penyakitData);
         const aktivitasLabels = @json($aktivitasLabels);
         const aktivitasData = @json($aktivitasData);
 
-        // Grafik Penyakit Teratas (tidak berubah)
         const ctxPenyakit = document.getElementById('penyakitChart').getContext('2d');
         new Chart(ctxPenyakit, {
             type: 'bar',
-            data: {
-                /* ... data penyakit ... */
-            },
-            options: {
-                /* ... opsi penyakit ... */
-            }
+            data: {},
+            options: {}
         });
-
-        // ===============================================================
-        //        TAMBAHKAN SCRIPT BARU UNTUK GRAFIK TOTAL DATA
-        // ===============================================================
         const ctxTotalData = document.getElementById('totalDataChart').getContext('2d');
         new Chart(ctxTotalData, {
             type: 'bar',
@@ -156,10 +140,10 @@
                     label: 'Jumlah Total Data',
                     data: aktivitasData,
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)', // Merah Muda untuk ANC
-                        'rgba(54, 162, 235, 0.2)', // Biru untuk Imunisasi
-                        'rgba(255, 206, 86, 0.2)', // Kuning untuk KB
-                        'rgba(75, 192, 192, 0.2)' // Hijau Tosca untuk Surveilans
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)'
                     ],
                     borderColor: [
                         'rgba(255, 99, 132, 1)',
@@ -178,7 +162,6 @@
                     yAxes: [{
                         ticks: {
                             beginAtZero: true,
-                            // Memastikan angka pada sumbu Y adalah bilangan bulat
                             callback: function(value) {
                                 if (Number.isInteger(value)) {
                                     return value;

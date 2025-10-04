@@ -42,7 +42,6 @@
                             @csrf
                             @method('PUT')
 
-                            <!-- Data Pasien -->
                             <div class="row mb-4">
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -126,7 +125,6 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- Submit Button -->
                             <div class="d-flex justify-content-end mt-4">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-save"></i> Perbarui Data

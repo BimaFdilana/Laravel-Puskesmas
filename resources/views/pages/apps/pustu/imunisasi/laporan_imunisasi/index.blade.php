@@ -26,7 +26,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                {{-- Dropdown untuk Tahun --}}
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label for="tahun">Pilih Tahun</label>
@@ -40,7 +39,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                {{-- Tombol untuk men-download laporan --}}
                                 <div class="col-md-2 d-flex align-items-end">
                                     <div class="form-group w-100">
                                         <button type="submit" class="btn btn-success w-100">

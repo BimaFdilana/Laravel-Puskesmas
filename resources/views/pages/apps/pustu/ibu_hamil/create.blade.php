@@ -80,7 +80,6 @@
                                 </div>
                             </div>
 
-                            <!-- Form ANC -->
                             <div class="table-responsive">
                                 <table class="table table-bordered">
                                     <thead>

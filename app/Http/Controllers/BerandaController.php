@@ -50,15 +50,12 @@ class BerandaController extends Controller
         $beranda = Beranda::find(1);
         $data = $request->except('_token', '_method');
 
-        // Handle File Uploads
         $imageFields = ['about_image_1', 'about_image_2', 'feature_image'];
         foreach ($imageFields as $field) {
             if ($request->hasFile($field)) {
-                // Hapus file lama jika ada
                 if ($beranda->$field && Storage::disk('public')->exists($beranda->$field)) {
                     Storage::disk('public')->delete($beranda->$field);
                 }
-                // Simpan file baru
                 $data[$field] = $request->file($field)->store('landing/img', 'public');
             }
         }
