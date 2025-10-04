@@ -6,7 +6,6 @@
 </head>
 
 <body>
-    {{-- Informasi Header Laporan --}}
     <table>
         <tr>
             <td style="font-weight: bold;">Desa</td>
@@ -27,7 +26,6 @@
 
     <br>
 
-    {{-- Tabel Utama Laporan --}}
     <table>
         <thead>
             <tr>

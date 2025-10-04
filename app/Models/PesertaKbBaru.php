@@ -17,11 +17,17 @@ class PesertaKbBaru extends Model
         'tanggal_pelayanan',
         'jenis_kontrasepsi',
         'jalur_layanan',
+        'user_id'
     ];
 
     // Relasi ke model Posyandu
     public function posyandu()
     {
         return $this->belongsTo(Posyandu::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

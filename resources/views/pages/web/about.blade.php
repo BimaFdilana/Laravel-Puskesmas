@@ -5,7 +5,7 @@
 @section('content')
     <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
-            <h1 class="display-3 text-success mb-3 animated slideInDown">About Us</h1>
+            <h1 class="display-3 text-success mb-3 animated slideInDown">Tentang Kami</h1>
         </div>
     </div>
 
@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-                        <p class="d-inline-block border rounded-pill py-1 px-4">About Us</p>
+                        <p class="d-inline-block border rounded-pill py-1 px-4">Tentang Kami</p>
                         <h1 class="mb-4">{{ $beranda->about_title }}</h1>
                         <p>{!! nl2br(e($beranda->about_description)) !!}</p>
                         @php

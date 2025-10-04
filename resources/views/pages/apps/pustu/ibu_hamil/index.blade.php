@@ -90,7 +90,6 @@
         </section>
     </div>
 
-    <!-- MODAL UNTUK MENAMPILKAN DETAIL -->
     <div class="modal fade" id="ancDetailModal" tabindex="-1" aria-labelledby="ancDetailModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -158,7 +157,6 @@
 
         document.addEventListener('DOMContentLoaded', function() {
 
-            // KODE UNTUK SWEETALERT DELETE (YANG HILANG)
             const deleteButtons = document.querySelectorAll('.delete-button');
             deleteButtons.forEach(button => {
                 button.addEventListener('click', function() {
@@ -187,7 +185,6 @@
                 });
             });
 
-            // KODE UNTUK MODAL LIHAT DETAIL (YANG SUDAH ADA)
             const viewButtons = document.querySelectorAll('.view-button');
             const modalLoading = document.getElementById('modal-loading');
             const modalContent = document.getElementById('modal-content');

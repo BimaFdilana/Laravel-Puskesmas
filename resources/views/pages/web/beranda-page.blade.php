@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-                        <p class="d-inline-block border rounded-pill py-1 px-4">About Us</p>
+                        <p class="d-inline-block border rounded-pill py-1 px-4">Tentang Kami</p>
                         <h1 class="mb-4">{{ $beranda->about_title }}</h1>
                         <p>{!! nl2br(e($beranda->about_description)) !!}</p>
                         @php
@@ -66,8 +66,9 @@
         <div class="container-xxl py-5">
             <div class="container">
                 <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
-                    <p class="d-inline-block border rounded-pill py-1 px-4">Services</p>
-                    <h1>Health Care Solutions</h1>
+                    <p class="d-inline-block border rounded-pill py-1 px-4">Layanan</p>
+                    <h1>
+                        Solusi Perawatan Kesehatan</h1>
                 </div>
                 <div class="row g-4">
                     @forelse ($services as $service)
@@ -92,7 +93,7 @@
                 <div class="row g-0 mx-lg-0">
                     <div class="col-lg-6 feature-text py-5 wow fadeIn" data-wow-delay="0.1s">
                         <div class="p-lg-5 ps-lg-0">
-                            <p class="d-inline-block border rounded-pill text-light py-1 px-4">Features</p>
+                            <p class="d-inline-block border rounded-pill text-light py-1 px-4">Fitur</p>
                             <h1 class="text-white mb-4">{{ $beranda->feature_title }}</h1>
                             <p class="text-white mb-4 pb-2">{!! nl2br(e($beranda->feature_description)) !!}</p>
                         </div>
@@ -111,7 +112,7 @@
             <div class="container">
                 <div class="row g-5">
                     <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
-                        <p class="d-inline-block border rounded-pill py-1 px-4">Appointment</p>
+                        <p class="d-inline-block border rounded-pill py-1 px-4">Janji Temu</p>
                         <h1 class="mb-4">{{ $beranda->appointment_title }}</h1>
                         <p class="mb-4">{!! nl2br(e($beranda->appointment_description)) !!}</p>
                     </div>
@@ -124,7 +125,7 @@
                                         <i class="fa fa-phone-alt text-success"></i>
                                     </div>
                                     <div class="ms-4">
-                                        <p class="mb-2">Call Us Now</p>
+                                        <p class="mb-2">Hubungi Kami</p>
                                         <h5 class="mb-0">{{ $beranda->contact_phone }}</h5>
                                     </div>
                                 </div>
@@ -134,7 +135,7 @@
                                         <i class="fa fa-envelope-open text-success"></i>
                                     </div>
                                     <div class="ms-4">
-                                        <p class="mb-2">Mail Us Now</p>
+                                        <p class="mb-2">Email Kami</p>
                                         <h5 class="mb-0">{{ $beranda->contact_email }}</h5>
                                     </div>
                                 </div>

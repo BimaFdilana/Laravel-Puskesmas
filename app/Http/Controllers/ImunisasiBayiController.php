@@ -13,7 +13,13 @@ class ImunisasiBayiController extends Controller
 {
     public function index()
     {
-        $dataImunisasi = ImunisasiBayi::with('jenisImunisasi')->latest()->paginate(10);
+        $query = ImunisasiBayi::with('jenisImunisasi')->latest();
+
+        if (auth()->user()->role_id == 2) {
+            $query->where('user_id', auth()->id());
+        }
+
+        $dataImunisasi = $query->paginate(10);
         return view('pages.apps.pustu.imunisasi.bayi.index', compact('dataImunisasi'));
     }
 
@@ -26,7 +32,12 @@ class ImunisasiBayiController extends Controller
                 ->with('show_posyandu_alert', true);
         }
 
-        $posyanduList = Posyandu::orderBy('nama_posyandu')->get();
+        $query = Posyandu::query();
+        if (auth()->user()->role_id == 2) {
+            $query->where('user_id', auth()->id());
+        }
+
+        $posyanduList = $query->orderBy('nama_posyandu')->get();
 
         $imunisasiKecuali = ['TT1', 'TT2', 'TT3', 'TT4', 'TT5'];
 
@@ -37,7 +48,7 @@ class ImunisasiBayiController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'nama_bayi' => 'required|string|max:255',
             'posyandu_id' => 'required|exists:posyandus,id',
             'nama_orang_tua' => 'required|string|max:255',
@@ -49,14 +60,21 @@ class ImunisasiBayiController extends Controller
             'jenis_imunisasi_id' => 'nullable|exists:jenis_imunisasi,id',
         ]);
 
-        ImunisasiBayi::create($request->all());
+        $data['user_id'] = auth()->user()->id;
+
+        ImunisasiBayi::create($data);
 
         return redirect()->route('imunisasi-bayi.index')->with('success', 'Data Imunisasi Bayi berhasil ditambahkan.');
     }
 
     public function edit(ImunisasiBayi $imunisasiBayi)
     {
-        $posyanduList = Posyandu::orderBy('nama_posyandu')->get();
+        $query = Posyandu::query();
+        if (auth()->user()->role_id == 2) {
+            $query->where('user_id', auth()->id());
+        }
+
+        $posyanduList = $query->orderBy('nama_posyandu')->get();
 
         $imunisasiKecuali = ['TT1', 'TT2', 'TT3', 'TT4', 'TT5'];
 

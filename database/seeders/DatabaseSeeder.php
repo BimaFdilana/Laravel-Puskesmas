@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             ServiceSeeder::class,
             JenisImunisasiSeeder::class,
             PenyakitSeeder::class,
+            DummyDataSeeder::class,
         ]);
     }
 }

@@ -19,6 +19,7 @@ use App\Http\Controllers\PesertaKbBaruController;
 use App\Http\Controllers\LaporanKbController;
 use App\Http\Controllers\SurveilansPenyakitController;
 use App\Http\Controllers\LaporanSurveilansController;
+use App\Http\Controllers\LaporanPustuController;
 
 
 Route::get('/', [BerandaController::class, 'index'])->name('beranda');
@@ -86,6 +87,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('anc', AncRecordController::class)->names('anc');
     Route::get('anc/{ancRecord}/export-word', [AncRecordController::class, 'exportWord'])->name('anc.export-word');
     Route::get('/laporan/anc', [AncRecordController::class, 'laporanIndex'])->name('laporan.anc.index');
+
+    Route::get('/laporan/pustu/{user}', [LaporanPustuController::class, 'show'])->name('laporan.pustu.show');
+    Route::get('/laporan/pustu', [LaporanPustuController::class, 'index'])->name('laporan.pustu.index');
+
 
     Route::get('blank', [Blank::class, 'index'])->name('blank');
 });

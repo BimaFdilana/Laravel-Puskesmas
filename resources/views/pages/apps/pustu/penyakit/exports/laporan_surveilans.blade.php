@@ -2,7 +2,6 @@
 <html>
 
 <body>
-    {{-- Bagian informasi ini tidak akan memiliki border --}}
     <table>
         <tr>
             <td colspan="29" style="text-align:center; font-weight:bold; font-size:14px;">SURVEILANS TERPADU PENYAKIT
@@ -28,7 +27,6 @@
         <tr></tr>
     </table>
 
-    {{-- Tabel utama dimulai di sini (baris ke-8 di Excel) --}}
     <table>
         <thead>
             <tr>

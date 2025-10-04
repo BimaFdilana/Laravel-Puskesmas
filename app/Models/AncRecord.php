@@ -21,7 +21,8 @@ class AncRecord extends Model
         'k3',
         'k4',
         'k5',
-        'k6'
+        'k6',
+        'user_id'
     ];
 
     protected $casts = [
@@ -62,5 +63,10 @@ class AncRecord extends Model
             'k5' => '>24 minggu sampai kelahiran',
             'k6' => '>24 minggu sampai kelahiran'
         ];
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

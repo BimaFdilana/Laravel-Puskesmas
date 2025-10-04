@@ -5,18 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\AncRecord;
 use App\Exports\IbuHamilExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AncRecordController extends Controller
 {
     public function index()
     {
-        $records = AncRecord::latest()->paginate(10);
+        $query = AncRecord::latest();
+        if (auth()->user()->role_id == 2) {
+            $query->where('user_id', auth()->user()->id);
+        }
+        $records = $query->paginate(10);
         return view('pages.apps.pustu.ibu_hamil.index', compact('records'));
     }
 
     public function laporanIndex()
     {
-        $records = AncRecord::latest()->paginate(10);
+        $query = AncRecord::latest();
+        if (auth()->user()->role_id == 2) {
+            $query->where('user_id', auth()->user()->id);
+        }
+        $records = $query->paginate(10);
         return view('pages.apps.pustu.ibu_hamil.laporan_ibu_hamil.index', compact('records'));
     }
 
@@ -48,6 +57,7 @@ class AncRecordController extends Controller
             $validated[$kunjungan] = json_encode($request->input($kunjungan, []));
         }
 
+        $validated['user_id'] = auth()->user()->id;
         AncRecord::create($validated);
 
         return redirect()->route('anc.index')->with('success', 'Anc Record created successfully');
@@ -109,10 +119,27 @@ class AncRecordController extends Controller
         return redirect()->route('anc.index')->with('success', 'Data ANC berhasil dihapus!');
     }
 
-    public function exportWord(AncRecord $ancRecord)
+    public function exportExcel(Request $request)
     {
-        $exporter = new IbuHamilExport($ancRecord);
-        $fileDetails = $exporter->export();
-        return response()->download($fileDetails['filePath'], $fileDetails['fileName'])->deleteFileAfterSend(true);
+
+        $bulan = $request->input('bulan', now()->month);
+        $tahun = $request->input('tahun', now()->year);
+
+        // Mulai query
+        $query = AncRecord::query();
+        if ($request->has('user_id') && $request->user_id != '') {
+            $query->where('user_id', $request->user_id);
+        }
+
+        // Ambil data ANC sesuai filter
+        $records = $query->whereMonth('created_at', $bulan)
+            ->whereYear('created_at', $tahun)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $namaBulan = \Carbon\Carbon::create()->month($bulan)->translatedFormat('F');
+        $namaFile = "Laporan Ibu Hamil - {$namaBulan} {$tahun}.xlsx";
+
+        return Excel::download(new IbuHamilExport($records, $namaBulan, $tahun), $namaFile);
     }
 }

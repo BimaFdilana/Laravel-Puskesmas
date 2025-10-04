@@ -17,61 +17,70 @@ class LandingPageController extends Controller
 {
     public function landingPage()
     {
-        // Variabel untuk Admin (role_id == 1)
-        $userCount = 0;
-        $messageCount = 0;
-
-        if (auth()->user()->role_id == 1) {
-            $userCount = User::where('role_id', 2)->count();
-            $messageCount = Contact::count(); // Menggunakan model Contact Anda
+        $userFilter = [];
+        if (auth()->user()->role_id == 2) {
+            $userFilter = ['user_id' => auth()->id()];
         }
 
-        // --- LOGIKA BARU UNTUK KARTU STATISTIK ---
-        $imunisasiCount = ImunisasiBayi::whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->count();
-        $kbCount = PesertaKbBaru::whereMonth('tanggal_pelayanan', now()->month)->whereYear('tanggal_pelayanan', now()->year)->count();
-        $surveilansCount = SurveilansPenyakit::whereMonth('tanggal_kunjungan', now()->month)->whereYear('tanggal_kunjungan', now()->year)->count();
-        $ancCount = AncRecord::whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->count();
+        // --- STATISTIK KARTU (TOTAL) ---
+        $imunisasiCount = ImunisasiBayi::where($userFilter)->count();
+        $kbCount = PesertaKbBaru::where($userFilter)->count();
+        $surveilansCount = SurveilansPenyakit::where($userFilter)->count();
+        $ancCount = AncRecord::where($userFilter)->count();
 
-        // --- LOGIKA BARU UNTUK GRAFIK PENYAKIT TERATAS (BAR CHART) ---
-        $topPenyakit = SurveilansPenyakit::with('penyakit')
-            ->select('penyakit_id', DB::raw('count(*) as total'))
-            ->whereMonth('tanggal_kunjungan', now()->month)
-            ->whereYear('tanggal_kunjungan', now()->year)
-            ->groupBy('penyakit_id')
-            ->orderBy('total', 'desc')
-            ->limit(5)
-            ->get();
-
-        $penyakitLabels = $topPenyakit->map(function ($item) {
-            // Pastikan relasi 'penyakit' ada untuk menghindari error
-            return $item->penyakit ? $item->penyakit->nama_penyakit : 'Lainnya';
-        });
-        $penyakitData = $topPenyakit->pluck('total');
-
-        // --- LOGIKA BARU UNTUK TABEL AKTIVITAS TERBARU ---
-        $recentActivities = SurveilansPenyakit::with('penyakit')->latest()->limit(5)->get();
-
-        $totalAnc = AncRecord::count();
-        $totalImunisasi = ImunisasiBayi::count();
-        $totalKb = PesertaKbBaru::count();
-        $totalSurveilans = SurveilansPenyakit::count();
-
+        // --- GRAFIK TOTAL DATA (SEMUA WAKTU) ---
         $aktivitasLabels = ['Ibu Hamil (ANC)', 'Imunisasi Bayi', 'Peserta KB Baru', 'Surveilans'];
-        $aktivitasData = [$totalAnc, $totalImunisasi, $totalKb, $totalSurveilans];
+        $aktivitasData = [$ancCount, $imunisasiCount, $kbCount, $surveilansCount];
 
-        // Mengirim semua variabel ke view
+        // ===============================================================
+        //     DATA BARU UNTUK WIDGET YANG LEBIH RAMAI
+        // ===============================================================
+
+        // 1. DATA UNTUK GRAFIK TREN 7 HARI TERAKHIR (LINE CHART)
+        $trendLabels = [];
+        $trendData = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $date = Carbon::today()->subDays($i);
+            $trendLabels[] = $date->translatedFormat('D'); // Format hari (Sen, Sel, Rab, ...)
+
+            // Menghitung total entri dari semua tabel pada hari tersebut
+            $count = AncRecord::where($userFilter)->whereDate('created_at', $date)->count()
+                + PesertaKbBaru::where($userFilter)->whereDate('tanggal_pelayanan', $date)->count()
+                + SurveilansPenyakit::where($userFilter)->whereDate('tanggal_kunjungan', $date)->count();
+
+            $trendData[] = $count;
+        }
+
+        // 2. DATA UNTUK DISTRIBUSI KB (DOUGHNUT CHART)
+        $kbDistribution = PesertaKbBaru::where($userFilter)
+            ->select('jenis_kontrasepsi', DB::raw('count(*) as total'))
+            ->groupBy('jenis_kontrasepsi')
+            ->pluck('total', 'jenis_kontrasepsi');
+
+        $kbLabels = $kbDistribution->keys();
+        $kbData = $kbDistribution->values();
+
+        // 3. DATA UNTUK AKTIVITAS TERBARU
+        $latestAnc = AncRecord::where($userFilter)->latest()->first();
+        $latestKb = PesertaKbBaru::where($userFilter)->latest('tanggal_pelayanan')->first();
+        $latestSurveilans = SurveilansPenyakit::where($userFilter)->latest('tanggal_kunjungan')->first();
+        $latestImunisasi = ImunisasiBayi::where($userFilter)->latest()->first();
+
         return view('pages.apps.dashboard', compact(
-            'userCount',
-            'messageCount',
             'imunisasiCount',
             'kbCount',
             'surveilansCount',
             'ancCount',
-            'penyakitLabels',
-            'penyakitData',
-            'recentActivities',
             'aktivitasLabels',
             'aktivitasData',
+            'trendLabels',
+            'trendData',
+            'kbLabels',
+            'kbData',
+            'latestAnc',
+            'latestKb',
+            'latestSurveilans',
+            'latestImunisasi'
         ));
     }
 
