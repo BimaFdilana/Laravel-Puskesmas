@@ -80,7 +80,7 @@
                         </div>
 
                         @if ($records->hasPages())
-                            <div class="d-flex justify-content-center mt-3">
+                            <div class="d-flex justify-content-center mt-3" style="gap: 6px;">
                                 {{ $records->links() }}
                             </div>
                         @endif

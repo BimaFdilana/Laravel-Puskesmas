@@ -9,7 +9,6 @@
             </div>
             <div class="section-body">
                 <div class="row">
-                    {{-- KARTU LAPORAN IBU HAMIL (ANC) --}}
                     <div class="col-12 col-md-6 col-lg-3">
                         <div class="card card-primary">
                             <div class="card-header">
@@ -23,7 +22,6 @@
                             </div>
                         </div>
                     </div>
-                    {{-- KARTU LAPORAN IMUNISASI --}}
                     <div class="col-12 col-md-6 col-lg-3">
                         <div class="card card-danger">
                             <div class="card-header">
