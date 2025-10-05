@@ -8,7 +8,6 @@
                 <h1>Dashboard {{ auth()->user()->role_id == 1 ? 'Petugas Puskesmas' : 'Puskesmas Pembantu' }}</h1>
             </div>
 
-            {{-- BARIS KARTU STATISTIK TOTAL --}}
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6 col-12">
                     <div class="card card-statistic-1">
@@ -56,7 +55,6 @@
                 </div>
             </div>
 
-            {{-- BARIS GRAFIK --}}
             <div class="row">
                 <div class="col-lg-7 col-md-12 col-12 col-sm-12">
                     <div class="card">
@@ -80,7 +78,6 @@
                 </div>
             </div>
 
-            {{-- BARIS AKSI CEPAT & AKTIVITAS TERBARU --}}
             <div class="row">
                 <div class="col-lg-8 col-md-12 col-12 col-sm-12">
                     <div class="card">
@@ -141,13 +138,12 @@
 @push('scripts')
     <script src="{{ asset('library/chart.js/dist/Chart.min.js') }}"></script>
     <script>
-        // Data dari Controller
+
         const trendLabels = @json($trendLabels);
         const trendData = @json($trendData);
         const kbLabels = @json($kbLabels);
         const kbData = @json($kbData);
 
-        // 1. Grafik Tren Aktivitas (Line Chart)
         const ctxTrend = document.getElementById('trendChart').getContext('2d');
         new Chart(ctxTrend, {
             type: 'line',
@@ -188,7 +184,6 @@
             }
         });
 
-        // 2. Grafik Distribusi KB (Doughnut Chart)
         const ctxKb = document.getElementById('kbDistributionChart').getContext('2d');
         new Chart(ctxKb, {
             type: 'doughnut',

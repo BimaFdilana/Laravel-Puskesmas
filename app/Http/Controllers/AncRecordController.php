@@ -131,7 +131,7 @@ class AncRecordController extends Controller
             $query->where('user_id', $request->user_id);
         }
 
-        // Ambil data ANC sesuai filter
+
         $records = $query->whereMonth('created_at', $bulan)
             ->whereYear('created_at', $tahun)
             ->orderBy('created_at', 'desc')

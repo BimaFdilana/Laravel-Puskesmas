@@ -12,7 +12,6 @@ class PublicContactController extends Controller
      */
     public function store(Request $request)
     {
-        // 1. Validasi data yang masuk
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
@@ -20,10 +19,8 @@ class PublicContactController extends Controller
             'message' => 'required|string',
         ]);
 
-        // 2. Simpan data ke database
         Contact::create($request->all());
 
-        // 3. Kembalikan ke halaman kontak dengan pesan sukses
         return redirect()->route('contact')->with('success', 'Pesan Anda telah berhasil terkirim. Terima kasih!');
     }
 }

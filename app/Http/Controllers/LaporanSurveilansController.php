@@ -19,12 +19,8 @@ class LaporanSurveilansController extends Controller
     public function export(Request $request)
     {
         $filterType = $request->input('filter_type', 'monthly');
-        $periode = 'Semua Data'; // Default title for 'all'
-        $tahun = now()->year;   // Default year
-
-        // ==========================================================
-        //         LOGIKA FILTER BARU YANG LEBIH FLEKSIBEL
-        // ==========================================================
+        $periode = 'Semua Data';
+        $tahun = now()->year;
 
         $query = SurveilansPenyakit::query();
 
@@ -43,11 +39,9 @@ class LaporanSurveilansController extends Controller
             $end = $request->input('end_date', now()->endOfMonth()->toDateString());
             $query->whereBetween('tanggal_kunjungan', [$start, $end]);
             $periode = Carbon::parse($start)->format('d/m/Y') . ' - ' . Carbon::parse($end)->format('d/m/Y');
-            $tahun = Carbon::parse($start)->year; // Ambil tahun dari tanggal mulai
+            $tahun = Carbon::parse($start)->year;
         }
-        // Jika filterType adalah 'all', tidak ada filter waktu yang diterapkan.
 
-        // Logika filter user_id (tetap sama)
         $userIdToFilter = null;
         if ($request->has('user_id') && auth()->user()->role_id == 1) {
             $userIdToFilter = $request->user_id;
@@ -59,13 +53,9 @@ class LaporanSurveilansController extends Controller
         }
 
         $records = $query->get();
-        // ==========================================================
-        //                 AKHIR DARI LOGIKA FILTER
-        // ==========================================================
 
         $allPenyakit = Penyakit::orderBy('id')->get();
 
-        // Logika untuk memproses dan mengelompokkan data (tidak berubah)
         $reportData = [];
         $ageGroups = [
             '0-7 Hr' => ['start' => 0, 'end' => 7, 'unit' => 'day'], '8-28 Hr' => ['start' => 8, 'end' => 28, 'unit' => 'day'],

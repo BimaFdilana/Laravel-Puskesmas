@@ -33,8 +33,8 @@ class LaporanSurveilansExport implements FromView, WithEvents, WithColumnWidths
     public function columnWidths(): array
     {
         return [
-            'A' => 5,   // No
-            'B' => 30,  // Penyakit
+            'A' => 5,
+            'B' => 30,
             'C' => 5,
             'D' => 5,
             'E' => 5,
@@ -59,41 +59,35 @@ class LaporanSurveilansExport implements FromView, WithEvents, WithColumnWidths
             'X' => 5,
             'Y' => 5,
             'Z' => 5,
-            'AA' => 8, // Total Laki
-            'AB' => 8, // Total Perp
-            'AC' => 15, // Total Kunjungan
+            'AA' => 8,
+            'AB' => 8,
+            'AC' => 15,
         ];
     }
 
-    // PERBAIKAN LOGIKA ADA DI DALAM METHOD INI
     public function registerEvents(): array
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
                 $lastColumn = 'AC';
-                $startRow = 8; // Tabel utama dimulai dari baris 8
+                $startRow = 8;
 
-                // PERBAIKAN: Perhitungan baris terakhir yang benar
-                // Header (3 baris) + Jumlah data penyakit + Baris Total (1 baris)
-                // Baris terakhir = 8 (start) + 3 (header) + count($this->data) + 1 (total) - 1 (karena startRow sudah dihitung)
                 $lastRow = 12 + count($this->data);
 
-                // Terapkan border ke seluruh tabel utama, termasuk baris TOTAL
                 $cellRange = 'A' . $startRow . ':' . $lastColumn . $lastRow;
                 $event->sheet->getDelegate()->getStyle($cellRange)->getBorders()->getAllBorders()->setBorderStyle(\PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN);
 
-                // Atur style header
-                $headerRange = 'A' . $startRow . ':' . $lastColumn . ($startRow + 2); // Header sekarang 3 baris
+
+                $headerRange = 'A' . $startRow . ':' . $lastColumn . ($startRow + 2);
                 $event->sheet->getDelegate()->getStyle($headerRange)->getFont()->setBold(true);
                 $event->sheet->getDelegate()->getStyle($headerRange)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
                 $event->sheet->getDelegate()->getStyle($headerRange)->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
 
-                // PERBAIKAN: Terapkan format angka ke seluruh area data, termasuk baris TOTAL
-                $dataStartRow = $startRow + 3; // Data dimulai setelah 3 baris header
+                $dataStartRow = $startRow + 3;
                 $dataRange = 'C' . $dataStartRow . ':' . $lastColumn . $lastRow;
                 $event->sheet->getDelegate()->getStyle($dataRange)
                     ->getNumberFormat()
-                    ->setFormatCode('#,##0;-#,##0;;@'); // Format untuk menyembunyikan nol
+                    ->setFormatCode('#,##0;-#,##0;;@');
             },
         ];
     }

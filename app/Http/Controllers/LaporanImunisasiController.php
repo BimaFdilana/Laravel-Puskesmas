@@ -24,14 +24,9 @@ class LaporanImunisasiController extends Controller
         $periode = 'Semua Data'; // Default title
         $tahun = now()->year;   // Default year
 
-        // ==========================================================
-        //         LOGIKA FILTER BARU YANG LEBIH FLEKSIBEL
-        // ==========================================================
-
         $queryBayi = ImunisasiBayi::with(['posyandu', 'jenisImunisasi']);
         $queryBumil = ImunisasiWusBumil::with(['posyandu', 'jenisImunisasi']);
 
-        // 1. Terapkan filter WAKTU berdasarkan jenisnya
         if ($filterType === 'monthly') {
             $bulan = $request->input('bulan', now()->month);
             $tahun = $request->input('tahun_bulanan', now()->year);
@@ -51,9 +46,7 @@ class LaporanImunisasiController extends Controller
             $periode = Carbon::parse($start)->format('d/m/Y') . ' - ' . Carbon::parse($end)->format('d/m/Y');
             $tahun = Carbon::parse($start)->year;
         }
-        // Jika 'all', tidak ada filter waktu diterapkan
 
-        // 2. Terapkan filter USER (logika ini tetap sama)
         $userIdToFilter = null;
         if ($request->has('user_id') && auth()->user()->role_id == 1) {
             $userIdToFilter = $request->user_id;
@@ -65,22 +58,17 @@ class LaporanImunisasiController extends Controller
             $queryBumil->where('user_id', $userIdToFilter);
         }
 
-        // 3. Eksekusi query untuk mendapatkan data
+
         $imunisasiBayi = $queryBayi->get();
         $imunisasiWusBumil = $queryBumil->get();
 
-        // 4. Filter daftar Posyandu juga menggunakan filter user yang sama
         $posyanduQuery = Posyandu::query();
         if ($userIdToFilter) {
             $posyanduQuery->where('user_id', $userIdToFilter);
         }
         $allPosyandu = $posyanduQuery->orderBy('nama_posyandu')->get();
 
-        // ==========================================================
-        //                 AKHIR DARI LOGIKA FILTER
-        // ==========================================================
 
-        // Proses data menjadi struktur laporan (tidak ada perubahan di bawah ini)
         $allJenisImunisasi = JenisImunisasi::pluck('nama_imunisasi')->toArray();
         $reportData = [];
         foreach ($allPosyandu as $posyandu) {

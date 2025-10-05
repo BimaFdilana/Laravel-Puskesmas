@@ -10,7 +10,7 @@ use App\Models\Contact;
 use App\Models\ImunisasiBayi;
 use App\Models\PesertaKbBaru;
 use App\Models\SurveilansPenyakit;
-use App\Models\AncRecord;          // <-- Tambahkan ini
+use App\Models\AncRecord;
 use Carbon\Carbon;
 
 class LandingPageController extends Controller
@@ -22,28 +22,21 @@ class LandingPageController extends Controller
             $userFilter = ['user_id' => auth()->id()];
         }
 
-        // --- STATISTIK KARTU (TOTAL) ---
         $imunisasiCount = ImunisasiBayi::where($userFilter)->count();
         $kbCount = PesertaKbBaru::where($userFilter)->count();
         $surveilansCount = SurveilansPenyakit::where($userFilter)->count();
         $ancCount = AncRecord::where($userFilter)->count();
 
-        // --- GRAFIK TOTAL DATA (SEMUA WAKTU) ---
         $aktivitasLabels = ['Ibu Hamil (ANC)', 'Imunisasi Bayi', 'Peserta KB Baru', 'Surveilans'];
         $aktivitasData = [$ancCount, $imunisasiCount, $kbCount, $surveilansCount];
 
-        // ===============================================================
-        //     DATA BARU UNTUK WIDGET YANG LEBIH RAMAI
-        // ===============================================================
 
-        // 1. DATA UNTUK GRAFIK TREN 7 HARI TERAKHIR (LINE CHART)
         $trendLabels = [];
         $trendData = [];
         for ($i = 6; $i >= 0; $i--) {
             $date = Carbon::today()->subDays($i);
-            $trendLabels[] = $date->translatedFormat('D'); // Format hari (Sen, Sel, Rab, ...)
+            $trendLabels[] = $date->translatedFormat('D');
 
-            // Menghitung total entri dari semua tabel pada hari tersebut
             $count = AncRecord::where($userFilter)->whereDate('created_at', $date)->count()
                 + PesertaKbBaru::where($userFilter)->whereDate('tanggal_pelayanan', $date)->count()
                 + SurveilansPenyakit::where($userFilter)->whereDate('tanggal_kunjungan', $date)->count();
@@ -51,7 +44,6 @@ class LandingPageController extends Controller
             $trendData[] = $count;
         }
 
-        // 2. DATA UNTUK DISTRIBUSI KB (DOUGHNUT CHART)
         $kbDistribution = PesertaKbBaru::where($userFilter)
             ->select('jenis_kontrasepsi', DB::raw('count(*) as total'))
             ->groupBy('jenis_kontrasepsi')

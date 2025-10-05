@@ -12,12 +12,12 @@ class LaporanPustuController extends Controller
      */
     public function index()
     {
-        // Pastikan hanya admin yang bisa mengakses
+
         if (auth()->user()->role_id != 1) {
             abort(403);
         }
 
-        // Ambil semua user dengan role 2 (Pustu)
+
         $pustuUsers = User::where('role_id', 2)->orderBy('name')->paginate(10);
 
         return view('pages.apps.petugas.laporan_pustu.index', compact('pustuUsers'));
@@ -28,7 +28,7 @@ class LaporanPustuController extends Controller
      */
     public function show(User $user)
     {
-        // ... (method show tidak berubah)
+
         if (auth()->user()->role_id != 1) {
             abort(403, 'HANYA ADMIN YANG DAPAT MENGAKSES HALAMAN INI.');
         }
