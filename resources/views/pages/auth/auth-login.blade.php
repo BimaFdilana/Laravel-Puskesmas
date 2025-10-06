@@ -39,7 +39,8 @@
                                 @csrf
                                 <div class="mb-3">
                                     <div class="form-floating">
-                                        <input type="email" class="form-control" name="email" id="email"
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                            name="email" id="email" value="{{ old('email') }}"
                                             placeholder="name@example.com" required>
                                         <label for="email">Email</label>
                                     </div>
@@ -67,4 +68,15 @@
 @endsection
 
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @error('email')
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal Masuk!',
+                text: 'Email atau kata sandi yang Anda masukkan salah.',
+                confirmButtonColor: '#28a745'
+            });
+        </script>
+    @enderror
 @endpush

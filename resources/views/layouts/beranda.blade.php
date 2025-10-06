@@ -98,7 +98,6 @@
                     <a href="#"><i class="icon ion-logo-youtube"></i></a>
                 </div>
                 <div class="col-md-6 col-xs-12">
-                    <small>2025 &copy; Puskesmas Meskom All rights reserved.</small>
                 </div>
             </div>
         </div>

@@ -119,27 +119,10 @@ class AncRecordController extends Controller
         return redirect()->route('anc.index')->with('success', 'Data ANC berhasil dihapus!');
     }
 
-    public function exportExcel(Request $request)
+    public function exportWord(AncRecord $ancRecord)
     {
-
-        $bulan = $request->input('bulan', now()->month);
-        $tahun = $request->input('tahun', now()->year);
-
-        // Mulai query
-        $query = AncRecord::query();
-        if ($request->has('user_id') && $request->user_id != '') {
-            $query->where('user_id', $request->user_id);
-        }
-
-
-        $records = $query->whereMonth('created_at', $bulan)
-            ->whereYear('created_at', $tahun)
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        $namaBulan = \Carbon\Carbon::create()->month($bulan)->translatedFormat('F');
-        $namaFile = "Laporan Ibu Hamil - {$namaBulan} {$tahun}.xlsx";
-
-        return Excel::download(new IbuHamilExport($records, $namaBulan, $tahun), $namaFile);
+        $exporter = new IbuHamilExport($ancRecord);
+        $fileDetails = $exporter->export();
+        return response()->download($fileDetails['filePath'], $fileDetails['fileName'])->deleteFileAfterSend(true);
     }
 }

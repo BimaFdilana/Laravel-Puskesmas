@@ -21,8 +21,8 @@ class LaporanImunisasiController extends Controller
     public function exportImunisasi(Request $request)
     {
         $filterType = $request->input('filter_type', 'monthly');
-        $periode = 'Semua Data'; // Default title
-        $tahun = now()->year;   // Default year
+        $periode = 'Semua Data';
+        $tahun = now()->year;
 
         $queryBayi = ImunisasiBayi::with(['posyandu', 'jenisImunisasi']);
         $queryBumil = ImunisasiWusBumil::with(['posyandu', 'jenisImunisasi']);
