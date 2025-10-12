@@ -8,6 +8,7 @@ use App\Models\Posyandu;
 use Illuminate\Http\Request;
 use App\Exports\ImunisasiBayiExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Bayi;
 
 class ImunisasiBayiController extends Controller
 {
@@ -43,7 +44,9 @@ class ImunisasiBayiController extends Controller
 
         $jenisImunisasiList = JenisImunisasi::whereNotIn('nama_imunisasi', $imunisasiKecuali)->orderBy('nama_imunisasi')->get();
 
-        return view('pages.apps.pustu.imunisasi.bayi.create', compact('jenisImunisasiList', 'posyanduList'));
+        $bayiList = Bayi::orderBy('nama_bayi')->get();
+
+        return view('pages.apps.pustu.imunisasi.bayi.create', compact('jenisImunisasiList', 'posyanduList', 'bayiList'));
     }
 
     public function store(Request $request)
@@ -59,6 +62,8 @@ class ImunisasiBayiController extends Controller
             'nik_bayi' => 'nullable|string|max:255',
             'jenis_imunisasi_id' => 'nullable|exists:jenis_imunisasi,id',
         ]);
+
+        Bayi::firstOrCreate(['nama_bayi' => $data['nama_bayi']]);
 
         $data['user_id'] = auth()->user()->id;
 
@@ -79,13 +84,14 @@ class ImunisasiBayiController extends Controller
         $imunisasiKecuali = ['TT1', 'TT2', 'TT3', 'TT4', 'TT5'];
 
         $jenisImunisasiList = JenisImunisasi::whereNotIn('nama_imunisasi', $imunisasiKecuali)->orderBy('nama_imunisasi')->get();
+        $bayiList = Bayi::orderBy('nama_bayi')->get();
 
-        return view('pages.apps.pustu.imunisasi.bayi.edit', compact('imunisasiBayi', 'jenisImunisasiList', 'posyanduList'));
+        return view('pages.apps.pustu.imunisasi.bayi.edit', compact('imunisasiBayi', 'jenisImunisasiList', 'posyanduList', 'bayiList'));
     }
 
     public function update(Request $request, ImunisasiBayi $imunisasiBayi)
     {
-        $request->validate([
+        $data = $request->validate([
             'nama_bayi' => 'required|string|max:255',
             'posyandu_id' => 'required|exists:posyandus,id',
             'nama_orang_tua' => 'required|string|max:255',
@@ -97,7 +103,9 @@ class ImunisasiBayiController extends Controller
             'jenis_imunisasi_id' => 'nullable|exists:jenis_imunisasi,id',
         ]);
 
-        $imunisasiBayi->update($request->all());
+        Bayi::firstOrCreate(['nama_bayi' => $data['nama_bayi']]);
+
+        $imunisasiBayi->update($data);
 
         return redirect()->route('imunisasi-bayi.index')->with('success', 'Data Imunisasi Bayi berhasil diperbarui.');
     }

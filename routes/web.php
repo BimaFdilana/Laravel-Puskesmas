@@ -20,6 +20,7 @@ use App\Http\Controllers\LaporanKbController;
 use App\Http\Controllers\SurveilansPenyakitController;
 use App\Http\Controllers\LaporanSurveilansController;
 use App\Http\Controllers\LaporanPustuController;
+use App\Http\Controllers\BayiController;
 
 
 Route::get('/', [BerandaController::class, 'index'])->name('beranda');
@@ -90,6 +91,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/laporan/pustu/{user}', [LaporanPustuController::class, 'show'])->name('laporan.pustu.show');
     Route::get('/laporan/pustu', [LaporanPustuController::class, 'index'])->name('laporan.pustu.index');
+
+    Route::resource('bayi', BayiController::class)->middleware('auth');
 
 
     Route::get('blank', [Blank::class, 'index'])->name('blank');

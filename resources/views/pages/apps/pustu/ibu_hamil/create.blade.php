@@ -116,7 +116,6 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- Submit Button -->
                             <div class="d-flex justify-content-end mt-4">
                                 <button type="submit" class="btn btn-success">
                                     <i class="fas fa-save"></i> Simpan Data
@@ -131,4 +130,18 @@
 @endsection
 
 @push('scripts')
+    {{-- Sweet Alert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Tampilkan notifikasi jika ada session 'success'
+        @if(session('success'))
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil!",
+                text: "{{ session('success') }}",
+                showConfirmButton: false,
+                timer: 2500 // Notifikasi akan hilang setelah 2.5 detik
+            });
+        @endif
+    </script>
 @endpush

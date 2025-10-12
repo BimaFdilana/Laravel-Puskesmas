@@ -78,6 +78,15 @@
 
 @push('scripts')
     <script>
+        @if (session('success'))
+            Swal.fire({
+                icon: "success",
+                title: "Berhasil!",
+                text: "{{ session('success') }}",
+                showConfirmButton: false,
+                timer: 2500 // Notifikasi akan hilang setelah 2.5 detik
+            });
+        @endif
         @if (session('show_posyandu_alert'))
             Swal.fire({
                 title: 'Data Posyandu Kosong!',

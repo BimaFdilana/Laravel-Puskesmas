@@ -1,8 +1,18 @@
 <div class="row">
     <div class="form-group col-md-6">
         <label>Nama Bayi</label>
-        <input type="text" name="nama_bayi" class="form-control"
-            value="{{ old('nama_bayi', $imunisasiBayi->nama_bayi ?? '') }}" required>
+        <select name="nama_bayi" id="nama_bayi_select" class="form-control" required>
+            <option value="">-- Pilih Nama Bayi --</option>
+            @if (isset($imunisasiBayi) && $imunisasiBayi->nama_bayi)
+                <option value="{{ $imunisasiBayi->nama_bayi }}" selected>{{ $imunisasiBayi->nama_bayi }}</option>
+            @endif
+            @foreach ($bayiList as $bayi)
+                <option value="{{ $bayi->nama_bayi }}"
+                    {{ old('nama_bayi', $imunisasiBayi->nama_bayi ?? '') == $bayi->nama_bayi ? 'selected' : '' }}>
+                    {{ $bayi->nama_bayi }}
+                </option>
+            @endforeach
+        </select>
     </div>
     <div class="form-group col-md-6">
         <label>Nama Posyandu</label>

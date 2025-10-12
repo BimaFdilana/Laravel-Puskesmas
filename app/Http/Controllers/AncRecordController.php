@@ -19,12 +19,19 @@ class AncRecordController extends Controller
         return view('pages.apps.pustu.ibu_hamil.index', compact('records'));
     }
 
-    public function laporanIndex()
+    public function laporanIndex(Request $request)
     {
         $query = AncRecord::latest();
-        if (auth()->user()->role_id == 2) {
-            $query->where('user_id', auth()->user()->id);
+        $user = auth()->user();
+
+        if ($user->role_id == 1) {
+            if ($request->has('user_id')) {
+                $query->where('user_id', $request->user_id);
+            }
+        } elseif ($user->role_id == 2) {
+            $query->where('user_id', $user->id);
         }
+
         $records = $query->paginate(10);
         return view('pages.apps.pustu.ibu_hamil.laporan_ibu_hamil.index', compact('records'));
     }

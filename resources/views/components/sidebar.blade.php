@@ -72,6 +72,10 @@
                     </a>
                 </li>
                 <li class="menu-header">Imunisasi</li>
+                <li class="{{ Request::is('bayi*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('bayi.index') }}"><i class="fa fa-baby"></i>
+                        <span>Nama Bayi</span></a>
+                </li>
                 <li class="{{ Request::is('imunisasi-bayi*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('imunisasi-bayi.index') }}"><i class="fa fa-heartbeat"></i>
                         <span>Imunisasi Bayi</span></a>
@@ -108,7 +112,8 @@
                     </a>
                 </li>
                 <li class="{{ Request::is('laporan/surveilans*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('laporan.surveilans.index') }}"><i class="fas fa-chart-bar"></i>
+                    <a class="nav-link" href="{{ route('laporan.surveilans.index') }}"><i
+                            class="fas fa-chart-bar"></i>
                         <span>Laporan Surveilans</span>
                     </a>
                 </li>
