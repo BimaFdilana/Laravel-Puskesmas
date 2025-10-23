@@ -26,3 +26,19 @@
         </section>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#nama_bayi_select').on('change', function() {
+                var selectedOption = $(this).find('option:selected');
+                $('#nama_orang_tua').val(selectedOption.data('nama_ortu'));
+                $('#tanggal_lahir').val(selectedOption.data('tgl_lahir'));
+                $('#jenis_kelamin').val(selectedOption.data('jk'));
+                $('#alamat_lengkap').val(selectedOption.data('alamat'));
+                $('#nik_orang_tua').val(selectedOption.data('nik_ortu'));
+                $('#nik_bayi').val(selectedOption.data('nik_bayi'));
+            });
+        });
+    </script>
+@endpush

@@ -39,7 +39,6 @@
                             @csrf
                             @method('PUT')
 
-                            {{-- Hero Section --}}
                             <div class="card">
                                 <div class="card-header">
                                     <h5>1. Hero Section (Bagian Atas)</h5>
@@ -52,12 +51,11 @@
                                     </div>
                                     <div class="form-group mb-0">
                                         <label class="form-label">Subjudul / Deskripsi Singkat</label>
-                                        <textarea name="hero_subtitle" class="form-control" rows="3" required>{{ old('hero_subtitle', $beranda->hero_subtitle) }}</textarea>
+                                        <textarea name="hero_subtitle" class="form-control" style="height: 100px;" required>{{ old('hero_subtitle', $beranda->hero_subtitle) }}</textarea>
                                     </div>
                                 </div>
                             </div>
 
-                            {{-- About Us Section --}}
                             <div class="card">
                                 <div class="card-header">
                                     <h5>2. About Us Section (Tentang Kami)</h5>
@@ -70,12 +68,12 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Deskripsi "About Us"</label>
-                                        <textarea name="about_description" class="form-control" rows="4" required>{{ old('about_description', $beranda->about_description) }}</textarea>
+                                        <textarea name="about_description" class="form-control" style="height: 150px;" required>{{ old('about_description', $beranda->about_description) }}</textarea>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Poin-poin Keunggulan (Pisahkan tiap poin dengan baris
                                             baru)</label>
-                                        <textarea name="about_points" class="form-control" rows="4" required>{{ old('about_points', $beranda->about_points) }}</textarea>
+                                        <textarea name="about_points" class="form-control" style="height: 150px;" required>{{ old('about_points', $beranda->about_points) }}</textarea>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
@@ -106,7 +104,6 @@
                                 </div>
                             </div>
 
-                            {{-- Features Section --}}
                             <div class="card">
                                 <div class="card-header">
                                     <h5>3. Features Section (Mengapa Memilih Kami)</h5>
@@ -119,7 +116,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Deskripsi "Features"</label>
-                                        <textarea name="feature_description" class="form-control" rows="4" required>{{ old('feature_description', $beranda->feature_description) }}</textarea>
+                                        <textarea name="feature_description" class="form-control" style="height: 150px;" required>{{ old('feature_description', $beranda->feature_description) }}</textarea>
                                     </div>
                                     <div class="form-group mb-0">
                                         <label class="form-label">Gambar "Features"</label>
@@ -134,7 +131,6 @@
                                 </div>
                             </div>
 
-                            {{-- Appointment Section --}}
                             <div class="card">
                                 <div class="card-header">
                                     <h5>4. Appointment & Kontak Section</h5>
@@ -147,7 +143,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Deskripsi "Appointment"</label>
-                                        <textarea name="appointment_description" class="form-control" rows="4" required>{{ old('appointment_description', $beranda->appointment_description) }}</textarea>
+                                        <textarea name="appointment_description" class="form-control" style="height: 150px;" required>{{ old('appointment_description', $beranda->appointment_description) }}</textarea>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
@@ -182,5 +178,4 @@
 @endsection
 
 @push('scripts')
-    {{-- Tambahkan script kustom di sini jika diperlukan --}}
 @endpush

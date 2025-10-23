@@ -35,11 +35,16 @@ class BayiController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'nama_bayi' => 'required|string|max:255|unique:bayis,nama_bayi,NULL,id,user_id,' . auth()->id(),
+            'nama_orang_tua' => 'required|string|max:255',
+            'tanggal_lahir' => 'required|date',
+            'jenis_kelamin' => 'required|in:L,P',
+            'alamat_lengkap' => 'required|string',
+            'nik_orang_tua' => 'nullable|string|max:255',
+            'nik_bayi' => 'nullable|string|max:255',
         ]);
 
-        $data = $request->all();
         $data['user_id'] = auth()->id();
 
         Bayi::create($data);
@@ -67,11 +72,17 @@ class BayiController extends Controller
             abort(403, 'AKSI TIDAK DIIZINKAN');
         }
 
-        $request->validate([
+        $data = $request->validate([
             'nama_bayi' => 'required|string|max:255|unique:bayis,nama_bayi,' . $bayi->id . ',id,user_id,' . auth()->id(),
+            'nama_orang_tua' => 'required|string|max:255',
+            'tanggal_lahir' => 'required|date',
+            'jenis_kelamin' => 'required|in:L,P',
+            'alamat_lengkap' => 'required|string',
+            'nik_orang_tua' => 'nullable|string|max:255',
+            'nik_bayi' => 'nullable|string|max:255',
         ]);
 
-        $bayi->update($request->all());
+        $bayi->update($data);
 
         return redirect()->route('bayi.index')->with('success', 'Data Bayi berhasil diperbarui.');
     }

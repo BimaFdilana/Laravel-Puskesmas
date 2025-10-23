@@ -13,6 +13,12 @@ class Bayi extends Model
     protected $fillable = [
         'nama_bayi',
         'user_id',
+        'nama_orang_tua',
+        'tanggal_lahir',
+        'jenis_kelamin',
+        'alamat_lengkap',
+        'nik_orang_tua',
+        'nik_bayi',
     ];
 
     public function user()
