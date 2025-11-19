@@ -43,6 +43,15 @@ class SurveilansPenyakitController extends Controller
         return redirect()->route('surveilans-penyakit.index')->with('success', 'Data Surveilans berhasil ditambahkan.');
     }
 
+    public function show(SurveilansPenyakit $surveilans_penyakit)
+    {
+        if (auth()->user()->role_id == 2 && $surveilans_penyakit->user_id !== auth()->id()) {
+            return response()->json(['error' => 'Aksi tidak diizinkan'], 403);
+        }
+        $surveilans_penyakit->load('penyakit');
+        return response()->json($surveilans_penyakit);
+    }
+
     public function edit(SurveilansPenyakit $surveilans_penyakit)
     {
         $penyakitList = Penyakit::orderBy('nama_penyakit')->get();

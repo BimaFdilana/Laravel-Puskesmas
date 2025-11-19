@@ -102,6 +102,49 @@
             </tr>
         </tbody>
     </table>
+
+    <br>
+
+    <table>
+        <tr>
+            <td colspan="23">&nbsp;</td>
+
+            <td colspan="6" style="text-align: left;">
+                Bengkalis,
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="23">&nbsp;</td>
+            <td colspan="6">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="23">&nbsp;</td>
+            <td colspan="6">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="23">&nbsp;</td>
+            <td colspan="6">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="23">&nbsp;</td>
+            <td colspan="6">&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td colspan="23">&nbsp;</td>
+            <td colspan="6" style="text-align: left; font-weight: bold;">
+                TENGKU FITRIA RAHMADHANI AM.Keb
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="23">&nbsp;</td>
+            <td colspan="6" style="text-align: left;">
+                Nr. PTT 873.446.2021.037
+            </td>
+        </tr>
+    </table>
 </body>
 
 </html>

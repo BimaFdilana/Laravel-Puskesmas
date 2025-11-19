@@ -108,7 +108,6 @@ class ImunisasiBayiExport implements WithEvents, WithColumnWidths, WithTitle, Wi
                         $sheet->setCellValue('D' . $rowNumber, $bayi->tanggal_lahir);
                         $sheet->setCellValue('E' . $rowNumber, $bayi->jenis_kelamin);
 
-                        // PERBAIKAN: Mengambil nama imunisasi dari relasi
                         $sheet->setCellValue('F' . $rowNumber, $bayi->jenisImunisasi->nama_imunisasi ?? 'N/A');
 
                         $sheet->setCellValue('G' . $rowNumber, $bayi->alamat_lengkap);

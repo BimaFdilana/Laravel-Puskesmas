@@ -72,6 +72,16 @@ class ImunisasiBayiController extends Controller
         return redirect()->route('imunisasi-bayi.index')->with('success', 'Data Imunisasi Bayi berhasil ditambahkan.');
     }
 
+    public function show(ImunisasiBayi $imunisasiBayi)
+    {
+        if (auth()->user()->role_id == 2 && $imunisasiBayi->user_id !== auth()->id()) {
+            return response()->json(['error' => 'Aksi tidak diizinkan'], 403);
+        }
+
+        $imunisasiBayi->load('posyandu', 'jenisImunisasi');
+        return response()->json($imunisasiBayi);
+    }
+
     public function edit(ImunisasiBayi $imunisasiBayi)
     {
         $query = Posyandu::query();

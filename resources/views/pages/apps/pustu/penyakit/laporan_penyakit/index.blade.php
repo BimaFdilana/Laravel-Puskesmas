@@ -9,26 +9,26 @@
             </div>
             <div class="section-body">
                 <div class="card">
-                    <form action="{{ route('laporan.surveilans.export') }}" method="GET">
-                        {{-- Input tersembunyi untuk user_id (jika admin yang melihat) --}}
+                    <form id="filterForm" action="{{ route('laporan.surveilans.index') }}" method="GET">
                         @if (request('user_id'))
                             <input type="hidden" name="user_id" value="{{ request('user_id') }}">
                         @endif
 
                         <div class="card-body">
-                            {{-- Dropdown untuk memilih jenis filter --}}
                             <div class="form-group">
                                 <label for="filter_type">Jenis Filter</label>
                                 <select name="filter_type" id="filter_type" class="form-control">
-                                    <option value="monthly" selected>Bulanan</option>
-                                    <option value="yearly">Tahunan</option>
-                                    <option value="range">Rentang Tanggal</option>
-                                    <option value="all">Semua Data</option>
+                                    <option value="monthly" {{ request('filter_type') == 'monthly' ? 'selected' : '' }}>
+                                        Bulanan</option>
+                                    <option value="yearly" {{ request('filter_type') == 'yearly' ? 'selected' : '' }}>
+                                        Tahunan</option>
+                                    <option value="range" {{ request('filter_type') == 'range' ? 'selected' : '' }}>Rentang
+                                        Tanggal</option>
                                 </select>
                             </div>
 
-                            {{-- Wadah untuk filter bulanan --}}
-                            <div id="monthly-filter" class="row">
+                            <div id="monthly-filter" class="row"
+                                style="{{ request('filter_type') == 'monthly' || !request('filter_type') ? '' : 'display:none' }}">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="bulan">Pilih Bulan</label>
@@ -48,7 +48,7 @@
                                         <select name="tahun_bulanan" id="tahun_bulanan" class="form-control">
                                             @for ($i = now()->year; $i >= now()->year - 5; $i--)
                                                 <option value="{{ $i }}"
-                                                    {{ request('tahun', now()->year) == $i ? 'selected' : '' }}>
+                                                    {{ request('tahun_bulanan', now()->year) == $i ? 'selected' : '' }}>
                                                     {{ $i }}</option>
                                             @endfor
                                         </select>
@@ -56,15 +56,15 @@
                                 </div>
                             </div>
 
-                            {{-- Wadah untuk filter tahunan --}}
-                            <div id="yearly-filter" class="row" style="display: none;">
+                            <div id="yearly-filter" class="row"
+                                style="{{ request('filter_type') == 'yearly' ? '' : 'display:none' }}">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="tahun_tahunan">Pilih Tahun</label>
                                         <select name="tahun_tahunan" id="tahun_tahunan" class="form-control">
                                             @for ($i = now()->year; $i >= now()->year - 5; $i--)
                                                 <option value="{{ $i }}"
-                                                    {{ request('tahun', now()->year) == $i ? 'selected' : '' }}>
+                                                    {{ request('tahun_tahunan', now()->year) == $i ? 'selected' : '' }}>
                                                     {{ $i }}</option>
                                             @endfor
                                         </select>
@@ -72,27 +72,27 @@
                                 </div>
                             </div>
 
-                            {{-- Wadah untuk filter rentang tanggal --}}
-                            <div id="range-filter" class="row" style="display: none;">
+                            <div id="range-filter" class="row"
+                                style="{{ request('filter_type') == 'range' ? '' : 'display:none' }}">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="start_date">Tanggal Mulai</label>
                                         <input type="date" name="start_date" id="start_date" class="form-control"
-                                            value="{{ now()->startOfMonth()->format('Y-m-d') }}">
+                                            value="{{ request('start_date', now()->startOfMonth()->format('Y-m-d')) }}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="end_date">Tanggal Akhir</label>
                                         <input type="date" name="end_date" id="end_date" class="form-control"
-                                            value="{{ now()->endOfMonth()->format('Y-m-d') }}">
+                                            value="{{ request('end_date', now()->endOfMonth()->format('Y-m-d')) }}">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer text-right">
-                            <button type="submit" class="btn btn-success">
-                                <i class="fas fa-download"></i> Download Laporan
+                            <button type="submit" class="btn btn-primary mr-2">
+                                <i class="fas fa-eye"></i> Tampilkan Laporan
                             </button>
                         </div>
                     </form>
@@ -100,10 +100,83 @@
             </div>
         </section>
     </div>
+
+    <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel"
+        aria-hidden="true" style="z-index: 1051;">
+        <div class="modal-dialog modal-xl" role="document" style="min-width: 98%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Preview Laporan Surveilans: {{ isset($periode) ? $periode : '' }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @if (isset($reportData) && count($reportData) > 0)
+                        <div class="table-responsive" style="max-height: 65vh; overflow-y: auto;">
+                            <table class="table table-bordered table-striped table-hover table-sm text-center">
+                                <thead class="bg-light text-dark" style="position: sticky; top: 0; z-index: 1;">
+                                    <tr>
+                                        <th rowspan="3" class="align-middle">No</th>
+                                        <th rowspan="3" class="align-middle" style="min-width: 200px;">Nama Penyakit</th>
+
+                                        @foreach($ageGroups as $key => $group)
+                                            <th colspan="2">{{ $key }}</th>
+                                        @endforeach
+
+                                        <th colspan="2">Total</th>
+                                    </tr>
+                                    <tr>
+                                        @foreach($ageGroups as $group)
+                                            <th>L</th><th>P</th>
+                                        @endforeach
+                                        <th>L</th><th>P</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php $i = 1; @endphp
+                                    @foreach ($reportData as $row)
+                                        <tr>
+                                            <td>{{ $i++ }}</td>
+                                            <td class="text-left">{{ $row['nama_penyakit'] }}</td>
+
+                                            @foreach($ageGroups as $key => $group)
+                                                <td>{{ $row[$key]['L'] }}</td>
+                                                <td>{{ $row[$key]['P'] }}</td>
+                                            @endforeach
+
+                                            <td class="font-weight-bold bg-light">{{ $row['total']['L'] }}</td>
+                                            <td class="font-weight-bold bg-light">{{ $row['total']['P'] }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @else
+                        <div class="alert alert-info">Tidak ada data ditemukan untuk periode ini.</div>
+                    @endif
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-success" onclick="submitExport()">
+                        <i class="fas fa-download"></i> Download Excel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
     <script>
+        function submitExport() {
+            const form = document.getElementById('filterForm');
+            const originalAction = form.action;
+            form.action = "{{ route('laporan.surveilans.export') }}";
+            form.submit();
+            setTimeout(() => { form.action = originalAction; }, 100);
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const filterTypeSelector = document.getElementById('filter_type');
             const monthlyFilter = document.getElementById('monthly-filter');
@@ -111,28 +184,22 @@
             const rangeFilter = document.getElementById('range-filter');
 
             function toggleFilterVisibility() {
-                // Sembunyikan semua filter terlebih dahulu
                 monthlyFilter.style.display = 'none';
                 yearlyFilter.style.display = 'none';
                 rangeFilter.style.display = 'none';
 
-                // Tampilkan filter yang sesuai berdasarkan pilihan
                 const selectedType = filterTypeSelector.value;
-                if (selectedType === 'monthly') {
-                    monthlyFilter.style.display = 'flex'; // 'flex' agar sejajar
-                } else if (selectedType === 'yearly') {
-                    yearlyFilter.style.display = 'flex';
-                } else if (selectedType === 'range') {
-                    rangeFilter.style.display = 'flex';
-                }
-                // Jika 'all', tidak ada yang ditampilkan
+                if (selectedType === 'monthly') monthlyFilter.style.display = 'flex';
+                else if (selectedType === 'yearly') yearlyFilter.style.display = 'flex';
+                else if (selectedType === 'range') rangeFilter.style.display = 'flex';
             }
 
-            // Tambahkan event listener untuk mengubah visibilitas saat dropdown berubah
             filterTypeSelector.addEventListener('change', toggleFilterVisibility);
-
-            // Panggil fungsi saat halaman pertama kali dimuat untuk mengatur tampilan awal
             toggleFilterVisibility();
+
+            @if (isset($reportData))
+                $('#previewModal').modal('show');
+            @endif
         });
     </script>
 @endpush

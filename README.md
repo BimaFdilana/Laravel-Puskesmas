@@ -64,3 +64,16 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+
+
+Tambah di untuk KB =  PesertaKbBaruController.php dan index.blade.php
+
+Tambah di untuk IMUNISASI ( Nama Bayi ) = BayiController.php dan index.blade.php
+
+Tambahkan di untuk Imunisasi ( Bayi ) =  ImunisasiBayiController.php dan index.blade.php
+
+Tambahkan di untuk IMUNISASI ( Bumil ) = ImunisasiWusBumilController.php dan index.blade.php
+
+Tambahkan di untuk SURVEILANS PENYAKIT = SurveilansPenyakitController.php dan index.blade.php

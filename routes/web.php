@@ -87,6 +87,7 @@ Route::middleware(['auth'])->group(function () {
     // ANC
     Route::resource('anc', AncRecordController::class)->names('anc');
     Route::get('anc/{ancRecord}/export-word', [AncRecordController::class, 'exportWord'])->name('anc.export-word');
+    Route::get('/anc/export-pdf/{ancRecord}', [AncRecordController::class, 'exportPdf'])->name('anc.export-pdf');
     Route::get('/laporan/anc', [AncRecordController::class, 'laporanIndex'])->name('laporan.anc.index');
 
     Route::get('/laporan/pustu/{user}', [LaporanPustuController::class, 'show'])->name('laporan.pustu.show');

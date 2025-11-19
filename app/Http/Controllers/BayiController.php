@@ -52,6 +52,14 @@ class BayiController extends Controller
         return redirect()->route('bayi.index')->with('success', 'Data Bayi berhasil ditambahkan.');
     }
 
+    public function show(Bayi $bayi)
+    {
+        if (auth()->user()->role_id == 2 && $bayi->user_id !== auth()->id()) {
+            return response()->json(['error' => 'Aksi tidak diizinkan'], 403);
+        }
+        return response()->json($bayi);
+    }
+
     /**
      * Menampilkan form untuk mengedit nama bayi.
      */

@@ -13,12 +13,24 @@ use Carbon\Carbon;
 
 class LaporanImunisasiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has('filter_type')) {
+            $data = $this->getData($request);
+            return view('pages.apps.pustu.imunisasi.laporan_imunisasi.index', $data);
+        }
+
         return view('pages.apps.pustu.imunisasi.laporan_imunisasi.index');
     }
 
     public function exportImunisasi(Request $request)
+    {
+        $data = $this->getData($request);
+        $namaFile = "Laporan Imunisasi - {$data['periode']}.xlsx";
+        return Excel::download(new LaporanImunisasiExport($data['reportData'], $data['periode'], $data['tahun']), $namaFile);
+    }
+
+    private function getData(Request $request)
     {
         $filterType = $request->input('filter_type', 'monthly');
         $periode = 'Semua Data';
@@ -58,7 +70,6 @@ class LaporanImunisasiController extends Controller
             $queryBumil->where('user_id', $userIdToFilter);
         }
 
-
         $imunisasiBayi = $queryBayi->get();
         $imunisasiWusBumil = $queryBumil->get();
 
@@ -68,11 +79,19 @@ class LaporanImunisasiController extends Controller
         }
         $allPosyandu = $posyanduQuery->orderBy('nama_posyandu')->get();
 
-
         $allJenisImunisasi = JenisImunisasi::pluck('nama_imunisasi')->toArray();
+
+        $listImunisasiBayi = array_diff($allJenisImunisasi, ['TT1', 'TT2', 'TT3', 'TT4', 'TT5']);
+        $listImunisasiBumil = ['TT1', 'TT2', 'TT3', 'TT4', 'TT5'];
+
         $reportData = [];
         foreach ($allPosyandu as $posyandu) {
-            $rowData = ['nama_posyandu' => $posyandu->nama_posyandu];
+            $rowData = [
+                'nama_posyandu' => $posyandu->nama_posyandu,
+                'BUMIL' => [],
+                'WUS' => []
+            ];
+
             foreach ($allJenisImunisasi as $jenis) {
                 if (!in_array($jenis, ['TT1', 'TT2', 'TT3', 'TT4', 'TT5'])) {
                     $rowData[$jenis] = ['L' => 0, 'P' => 0];
@@ -81,6 +100,7 @@ class LaporanImunisasiController extends Controller
                     $rowData['WUS'][$jenis] = 0;
                 }
             }
+
             foreach ($imunisasiBayi->where('posyandu_id', $posyandu->id) as $data) {
                 if ($data->jenisImunisasi) {
                     $jenis = $data->jenisImunisasi->nama_imunisasi;
@@ -90,6 +110,7 @@ class LaporanImunisasiController extends Controller
                     }
                 }
             }
+
             foreach ($imunisasiWusBumil->where('posyandu_id', $posyandu->id) as $data) {
                 if ($data->jenisImunisasi) {
                     $jenis = $data->jenisImunisasi->nama_imunisasi;
@@ -107,8 +128,12 @@ class LaporanImunisasiController extends Controller
             $reportData[] = $rowData;
         }
 
-        $namaFile = "Laporan Imunisasi - {$periode}.xlsx";
-
-        return Excel::download(new LaporanImunisasiExport($reportData, $periode, $tahun), $namaFile);
+        return [
+            'reportData' => $reportData,
+            'periode' => $periode,
+            'tahun' => $tahun,
+            'listImunisasiBayi' => $listImunisasiBayi,
+            'listImunisasiBumil' => $listImunisasiBumil
+        ];
     }
 }

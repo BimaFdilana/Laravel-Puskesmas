@@ -52,6 +52,12 @@ class PesertaKbBaruController extends Controller
         return redirect()->route('peserta-kb.index')->with('success', 'Data Peserta KB Baru berhasil ditambahkan.');
     }
 
+    public function show(PesertaKbBaru $peserta_kb)
+    {
+        $peserta_kb->load('posyandu');
+        return response()->json($peserta_kb);
+    }
+
     public function edit(PesertaKbBaru $peserta_kb)
     {
         $query = Posyandu::query();

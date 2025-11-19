@@ -132,4 +132,15 @@ class AncRecordController extends Controller
         $fileDetails = $exporter->export();
         return response()->download($fileDetails['filePath'], $fileDetails['fileName'])->deleteFileAfterSend(true);
     }
+
+    public function exportPdf(AncRecord $ancRecord)
+    {
+        try {
+            $exporter = new IbuHamilExport($ancRecord, 'pdf');
+            $fileDetails = $exporter->export();
+            return response()->download($fileDetails['filePath'], $fileDetails['fileName'])->deleteFileAfterSend(true);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal mengekspor PDF. Pastikan DomPDF terinstal.');
+        }
+    }
 }

@@ -11,12 +11,23 @@ use Carbon\Carbon;
 
 class LaporanSurveilansController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has('filter_type')) {
+            $data = $this->getData($request);
+            return view('pages.apps.pustu.penyakit.laporan_penyakit.index', $data);
+        }
         return view('pages.apps.pustu.penyakit.laporan_penyakit.index');
     }
 
     public function export(Request $request)
+    {
+        $data = $this->getData($request);
+        $namaFile = "Laporan Surveilans Penyakit - {$data['periode']}.xlsx";
+        return Excel::download(new LaporanSurveilansExport($data['reportData'], $data['periode'], $data['tahun']), $namaFile);
+    }
+
+    private function getData(Request $request)
     {
         $filterType = $request->input('filter_type', 'monthly');
         $periode = 'Semua Data';
@@ -53,34 +64,49 @@ class LaporanSurveilansController extends Controller
         }
 
         $records = $query->get();
-
         $allPenyakit = Penyakit::orderBy('id')->get();
 
-        $reportData = [];
         $ageGroups = [
-            '0-7 Hr' => ['start' => 0, 'end' => 7, 'unit' => 'day'], '8-28 Hr' => ['start' => 8, 'end' => 28, 'unit' => 'day'],
-            '< 1' => ['start' => 29, 'end' => 364, 'unit' => 'day'], '1-4' => ['start' => 1, 'end' => 4, 'unit' => 'year'],
-            '5-9' => ['start' => 5, 'end' => 9, 'unit' => 'year'], '10-14' => ['start' => 10, 'end' => 14, 'unit' => 'year'],
-            '15-19' => ['start' => 15, 'end' => 19, 'unit' => 'year'], '20-44' => ['start' => 20, 'end' => 44, 'unit' => 'year'],
-            '45-54' => ['start' => 45, 'end' => 54, 'unit' => 'year'], '55-59' => ['start' => 55, 'end' => 59, 'unit' => 'year'],
-            '60-69' => ['start' => 60, 'end' => 69, 'unit' => 'year'], '70+' => ['start' => 70, 'end' => 200, 'unit' => 'year'],
+            '0-7 Hr' => ['start' => 0, 'end' => 7, 'unit' => 'day'],
+            '8-28 Hr' => ['start' => 8, 'end' => 28, 'unit' => 'day'],
+            '< 1' => ['start' => 29, 'end' => 364, 'unit' => 'day'],
+            '1-4' => ['start' => 1, 'end' => 4, 'unit' => 'year'],
+            '5-9' => ['start' => 5, 'end' => 9, 'unit' => 'year'],
+            '10-14' => ['start' => 10, 'end' => 14, 'unit' => 'year'],
+            '15-19' => ['start' => 15, 'end' => 19, 'unit' => 'year'],
+            '20-44' => ['start' => 20, 'end' => 44, 'unit' => 'year'],
+            '45-54' => ['start' => 45, 'end' => 54, 'unit' => 'year'],
+            '55-59' => ['start' => 55, 'end' => 59, 'unit' => 'year'],
+            '60-69' => ['start' => 60, 'end' => 69, 'unit' => 'year'],
+            '70+' => ['start' => 70, 'end' => 200, 'unit' => 'year'],
         ];
+
+        $reportData = [];
         foreach ($allPenyakit as $penyakit) {
             $rowData = ['nama_penyakit' => $penyakit->nama_penyakit];
-            foreach (array_keys($ageGroups) as $key) { $rowData[$key] = ['L' => 0, 'P' => 0]; }
+            foreach (array_keys($ageGroups) as $key) {
+                $rowData[$key] = ['L' => 0, 'P' => 0];
+            }
             $rowData['total'] = ['L' => 0, 'P' => 0];
             $reportData[$penyakit->id] = $rowData;
         }
+
         foreach ($records as $record) {
             $tglLahir = Carbon::parse($record->tanggal_lahir);
             $tglKunjungan = Carbon::parse($record->tanggal_kunjungan);
+
             $ageInDays = $tglLahir->diffInDays($tglKunjungan);
             $ageInYears = $tglLahir->diffInYears($tglKunjungan);
+
             $gender = $record->jenis_kelamin;
+
             foreach ($ageGroups as $key => $group) {
                 $age = ($group['unit'] === 'day') ? $ageInDays : $ageInYears;
+
+                if ($group['unit'] === 'day' && $ageInYears >= 1) continue;
+
                 if ($age >= $group['start'] && $age <= $group['end']) {
-                    if (isset($reportData[$record->penyakit_id][$key][$gender])) {
+                    if (isset($reportData[$record->penyakit_id])) {
                         $reportData[$record->penyakit_id][$key][$gender]++;
                         $reportData[$record->penyakit_id]['total'][$gender]++;
                     }
@@ -89,8 +115,11 @@ class LaporanSurveilansController extends Controller
             }
         }
 
-        $namaFile = "Laporan Surveilans Penyakit - {$periode}.xlsx";
-
-        return Excel::download(new LaporanSurveilansExport($reportData, $periode, $tahun), $namaFile);
+        return [
+            'reportData' => $reportData,
+            'periode' => $periode,
+            'tahun' => $tahun,
+            'ageGroups' => $ageGroups
+        ];
     }
 }

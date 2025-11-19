@@ -8,9 +8,6 @@
 <body>
     <table>
         <tr>
-            <td style="font-weight: bold;">Desa</td>
-            <td>:</td>
-            <td>SEBAUK</td>
         </tr>
         <tr>
             <td style="font-weight: bold;">Bulan</td>
@@ -25,6 +22,54 @@
     </table>
 
     <br>
+
+    @php
+        // Kunci-kunci untuk iterasi yang lebih mudah
+        $imunisasiKeys = [
+            'HBO',
+            'BCG',
+            'Polio 1',
+            'DPTHBHIB 1',
+            'Polio 2',
+            'DPTHBHIB 2',
+            'Polio 3',
+            'DPTHBHIB 3',
+            'Polio 4',
+            'IPV',
+            'Campak',
+            'DPTHBHIB Booster',
+        ];
+        $ttBumilKeys = ['TT3', 'TT4', 'TT5'];
+        $ttWusKeys = ['TT3', 'TT4', 'TT5'];
+
+        // Inisialisasi array total
+        $totals = [];
+        foreach ($imunisasiKeys as $key) {
+            $totals[$key] = ['L' => 0, 'P' => 0];
+        }
+        $totals['BUMIL'] = [];
+        foreach ($ttBumilKeys as $key) {
+            $totals['BUMIL'][$key] = 0;
+        }
+        $totals['WUS'] = [];
+        foreach ($ttWusKeys as $key) {
+            $totals['WUS'][$key] = 0;
+        }
+
+        // Lakukan kalkulasi total
+        foreach ($reportData as $row) {
+            foreach ($imunisasiKeys as $key) {
+                $totals[$key]['L'] += $row[$key]['L'] ?? 0;
+                $totals[$key]['P'] += $row[$key]['P'] ?? 0;
+            }
+            foreach ($ttBumilKeys as $key) {
+                $totals['BUMIL'][$key] += $row['BUMIL'][$key] ?? 0;
+            }
+            foreach ($ttWusKeys as $key) {
+                $totals['WUS'][$key] += $row['WUS'][$key] ?? 0;
+            }
+        }
+    @endphp
 
     <table>
         <thead>
@@ -105,50 +150,68 @@
                     <td>{{ $row['WUS']['TT5'] ?? 0 }}</td>
                 </tr>
             @endforeach
-            @if (count($reportData) < 5)
-                @for ($i = count($reportData); $i < 5; $i++)
-                    <tr>
-                        <td>{{ $i + 1 }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                @endfor
-            @endif
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="2" style="text-align: center; font-weight: bold;">JUMLAH</td>
+
+                @foreach ($imunisasiKeys as $key)
+                    <td style="text-align: center; font-weight: bold;">{{ $totals[$key]['L'] }}</td>
+                    <td style="text-align: center; font-weight: bold;">{{ $totals[$key]['P'] }}</td>
+                @endforeach
+
+                @foreach ($ttBumilKeys as $key)
+                    <td style="text-align: center; font-weight: bold;">{{ $totals['BUMIL'][$key] }}</td>
+                @endforeach
+
+                @foreach ($ttWusKeys as $key)
+                    <td style="text-align: center; font-weight: bold;">{{ $totals['WUS'][$key] }}</td>
+                @endforeach
             </tr>
         </tfoot>
+    </table>
+
+    <br>
+
+    <table>
+        <tr>
+            <td colspan="26">&nbsp;</td>
+
+            <td colspan="6" style="text-align: left;">
+                Bengkalis,
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="26">&nbsp;</td>
+            <td colspan="6">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="26">&nbsp;</td>
+            <td colspan="6">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="26">&nbsp;</td>
+            <td colspan="6">&nbsp;</td>
+        </tr>
+        <tr>
+            <td colspan="26">&nbsp;</td>
+            <td colspan="6">&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td colspan="26">&nbsp;</td>
+            <td colspan="6" style="text-align: left; font-weight: bold;">
+                TENGKU FITRIA RAHMADHANI AM.Keb
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="26">&nbsp;</td>
+            <td colspan="6" style="text-align: left;">
+                Nr. PTT 873.446.2021.037
+            </td>
+        </tr>
     </table>
 </body>
 

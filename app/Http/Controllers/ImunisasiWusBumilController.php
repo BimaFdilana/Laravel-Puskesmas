@@ -66,6 +66,15 @@ class ImunisasiWusBumilController extends Controller
         return redirect()->route('imunisasi-wus-bumil.index')->with('success', 'Data Imunisasi WUS/Bumil berhasil ditambahkan.');
     }
 
+    public function show(ImunisasiWusBumil $imunisasiWusBumil)
+    {
+        if (auth()->user()->role_id == 2 && $imunisasiWusBumil->user_id !== auth()->id()) {
+            return response()->json(['error' => 'Aksi tidak diizinkan'], 403);
+        }
+        $imunisasiWusBumil->load('posyandu', 'jenisImunisasi');
+        return response()->json($imunisasiWusBumil);
+    }
+
     public function edit(ImunisasiWusBumil $imunisasiWusBumil)
     {
         $query = Posyandu::query();

@@ -11,17 +11,27 @@ use Carbon\Carbon;
 
 class LaporanKbController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has('filter_type')) {
+            $data = $this->getData($request);
+            return view('pages.apps.pustu.keluarga_berencana.laporan_kb.index', $data);
+        }
         return view('pages.apps.pustu.keluarga_berencana.laporan_kb.index');
     }
 
     public function export(Request $request)
     {
+        $data = $this->getData($request);
+        $namaFile = "Laporan KB Peserta Baru - {$data['periode']}.xlsx";
+        return Excel::download(new LaporanKbExport($data['reportData'], $data['periode'], $data['tahun']), $namaFile);
+    }
+
+    private function getData(Request $request)
+    {
         $filterType = $request->input('filter_type', 'monthly');
         $periode = 'Semua Data';
         $tahun = now()->year;
-
 
         $kbQuery = PesertaKbBaru::query();
 
@@ -60,24 +70,37 @@ class LaporanKbController extends Controller
         }
         $allPosyandu = $posyanduQuery->orderBy('nama_posyandu')->get();
 
+        $allKontrasepsi = ['PIL', 'SUNTIK', 'KONDOM', 'IUD', 'IMPLAN', 'MOW', 'MOP'];
+        $allJalur = ['UMUM', 'BPJS/K', 'PASCA SALIN'];
+
         $reportData = [];
+
         foreach ($allPosyandu as $posyandu) {
-            $rowData = ['nama_desa' => $posyandu->nama_posyandu];
-            $allKontrasepsi = ['PIL', 'SUNTIK', 'KONDOM', 'IUD', 'IMPLAN', 'MOW', 'MOP'];
-            $allJalur = ['UMUM', 'BPJS/K', 'PASCA SALIN'];
+            $rowData = [
+                'nama_desa' => $posyandu->nama_posyandu,
+            ];
+
+
             foreach ($allKontrasepsi as $kontrasepsi) {
                 foreach ($allJalur as $jalur) {
                     $rowData[$kontrasepsi][$jalur] = 0;
                 }
             }
+
             foreach ($kbRecords->where('posyandu_id', $posyandu->id) as $record) {
-                $rowData[$record->jenis_kontrasepsi][$record->jalur_layanan]++;
+                if (isset($rowData[$record->jenis_kontrasepsi][$record->jalur_layanan])) {
+                    $rowData[$record->jenis_kontrasepsi][$record->jalur_layanan]++;
+                }
             }
             $reportData[] = $rowData;
         }
 
-        $namaFile = "Laporan KB Peserta Baru - {$periode}.xlsx";
-
-        return Excel::download(new LaporanKbExport($reportData, $periode, $tahun), $namaFile);
+        return [
+            'reportData' => $reportData,
+            'periode' => $periode,
+            'tahun' => $tahun,
+            'allKontrasepsi' => $allKontrasepsi,
+            'allJalur' => $allJalur
+        ];
     }
 }
